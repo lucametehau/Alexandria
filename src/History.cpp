@@ -4,7 +4,7 @@
 
 //Update the history heuristics of all the quiet moves passed to the function
 void updateHH(S_Board* pos, S_Stack* ss, int depth, int bestmove, S_MOVELIST* quiet_moves) {
-	int bonus = (std::min)(depth * 125, 2000);
+	int bonus = (std::min)((12 * depth + 282) * depth - 349, 1480);
 	//Loop through all the quiet moves
 	for (int i = 0; i < quiet_moves->count; i++) {
 		int move = quiet_moves->moves[i].move;
