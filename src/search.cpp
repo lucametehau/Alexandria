@@ -57,13 +57,6 @@ void ClearForSearch(S_Board* pos, S_Stack* ss, S_SearchINFO* info) {
 		}
 	}
 
-	//Reset the 2 killer moves that are stored for any searched depth
-	for (int index = 0; index < 2; ++index) {
-		for (int index2 = 0; index2 < MAXDEPTH; ++index2) {
-			ss->searchKillers[index][index2] = 0;
-		}
-	}
-
 	//Clean the Pv array
 	for (int index = 0; index < MAXDEPTH + 1; ++index) {
 		ss->pvLength[index] = 0;
