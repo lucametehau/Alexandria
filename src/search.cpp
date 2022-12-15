@@ -559,7 +559,7 @@ moves_loop:
 		//Play the move
 		make_move(move, pos);
 		//Speculative prefetch of the TT entry
-		TTPrefetch(pos->posKey);
+		prefetch(&HashTable->pTable[(pos->posKey) % HashTable->numEntries]);
 		// increment nodes count
 		info->nodes++;
 
