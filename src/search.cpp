@@ -299,7 +299,7 @@ void search_position(int start_depth, int final_depth, S_ThreadData* td, S_UciOp
 int aspiration_window_search(int prev_eval, int depth, S_ThreadData* td) {
 	int score = 0;
 	//We set an expected window for the score at the next search depth, this window is not 100% accurate so we might need to try a bigger window and re-search the position
-	int delta = 12;
+	int delta = 16;
 	// define initial alpha beta bounds
 	int alpha = -MAXSCORE;
 	int beta = MAXSCORE;
