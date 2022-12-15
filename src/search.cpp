@@ -278,7 +278,7 @@ void search_position(int start_depth, int final_depth, S_ThreadData* td, S_UciOp
 		score = aspiration_window_search(score, current_depth, td);
 
 		// check if we just cleared a depth and more than OptTime passed
-		if (td->id == 0 && stopEarly(&td->info)) 
+		if (td->id == 0 && stopEarly(&td->info))
 		{
 			stopHelperThreads();
 			//Stop mainthread search
@@ -286,7 +286,7 @@ void search_position(int start_depth, int final_depth, S_ThreadData* td, S_UciOp
 		}
 
 		// stop calculating and return best move so far
-		if (td->info.stopped) 
+		if (td->info.stopped)
 			break;
 		//If it's the main thread print the uci output
 		if (td->id == 0)
@@ -305,7 +305,7 @@ int aspiration_window_search(int prev_eval, int depth, S_ThreadData* td) {
 	int beta = MAXSCORE;
 
 	// only set up the windows is the search depth is bigger or equal than Aspiration_Depth to avoid using windows when the search isn't accurate enough
-	if (depth >= 3) {
+	if (depth >= 6) {
 		alpha = (std::max)(-MAXSCORE, prev_eval - delta);
 		beta = (std::min)(prev_eval + delta, MAXSCORE);
 	}
