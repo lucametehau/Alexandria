@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "tests.h"
 
 int main(int argc, char** argv) {
 	// init all
@@ -22,8 +23,9 @@ int main(int argc, char** argv) {
 	InitHashTable(HashTable, 16);
 	setvbuf(stdin, NULL, _IONBF, 0);
 	setvbuf(stdout, NULL, _IONBF, 0);
+	run_tests();
 	// connect to the GUI
-	Uci_Loop(argv);
+	//Uci_Loop(argv);
 
 	free(HashTable->pTable);
 	return 0;
