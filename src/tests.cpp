@@ -10,11 +10,9 @@ using pair_type = std::pair<std::string, std::string>;
 
 //Runs a generic test matching a searching position X for bestmove X
 void run_test(const std::string testfen, const  std::string best_move) {
-	// init all;
-	init_all();
+
 	S_UciOptions uci_options[1];
 	S_ThreadData td[1];
-	InitHashTable(HashTable, 64);
 
 	parse_fen(testfen.c_str(), &td->pos);
 
@@ -29,7 +27,7 @@ void run_test(const std::string testfen, const  std::string best_move) {
 
 void fifty_mr_test() {
 
-	printf("\n50 MR TEST\n");
+	printf("\n 50 MR TEST\n");
 	const std::array<pair_type, 4> tests = { {
 		   {"7k/8/R7/1R6/7K/8/7P/8 w - - 99 1", "h2h3"},
 		   {"8/7p/8/7k/1r6/r7/8/7K b - - 99 1", "h7h6"},
@@ -44,7 +42,7 @@ void fifty_mr_test() {
 
 void mate_test() {
 
-	printf("\nMATE TEST\n");
+	printf("\n MATE TEST\n");
 	const std::array<pair_type, 4> tests = { {
 		{"3k4/8/3K4/8/5R2/8/8/8 w - - 0 1", "f4f8"},
 		{"8/8/8/5r2/8/3k4/8/3K4 b - - 0 1", "f5f1"},
@@ -59,7 +57,7 @@ void mate_test() {
 
 
 void mate_test_castling() {
-	printf("\nMATE TEST CASTLING EDITION\n");
+	printf("\n MATE TEST CASTLING EDITION\n");
 
 	const std::array<pair_type, 4> tests = { {
 		  {"8/8/8/8/8/8/7R/1k2K2R w K - 0 1", "e1g1"},
@@ -74,7 +72,7 @@ void mate_test_castling() {
 }
 
 void stalemate_test() {
-	printf("\nSTALEMATE TEST\n");
+	printf("\n STALEMATE TEST\n");
 	const std::array<pair_type, 6> tests = { {
 	   {"kb4r1/p7/8/8/8/6q1/8/R6K w - - 0 1", "a1a7"},
 	   {"r6k/8/6Q1/8/8/8/P7/KB4R1 b - - 0 1", "a8a2"},
@@ -90,7 +88,7 @@ void stalemate_test() {
 }
 
 void underpromotion_test() {
-	printf("\nUNDERPROMO TEST\n");
+	printf("\n UNDERPROMO TEST\n");
 	const std::array<pair_type, 2> tests = { {
 	   {"6n1/5P1k/5Q2/8/8/8/8/7K w - - 0 1", "f7f8n"},
 	   {"7k/8/8/8/8/5q2/5p1K/6N1 b - - 0 1", "f2f1n"},
@@ -101,8 +99,24 @@ void underpromotion_test() {
 	}
 }
 
+void tactics_test() {
+	printf("\n TACTICS TEST\n");
+	const std::array<pair_type, 2> tests = { {
+	  {"4k3/q7/1P6/8/8/8/8/4K3 w - - 0 1", "b6a7"},
+	  {"4k3/8/8/3q4/8/8/3Q4/4K3 w - - 0 1", "d2d5"},
+  } };
+
+	for (const auto& [fen, movestr] : tests) {
+		run_test(fen, movestr);
+	}
+}
+
 void run_tests()
 {
+	//Init stuff here to avoid having to do it for every test
+	init_all();
+	InitHashTable(HashTable, 64);
+
 	fifty_mr_test();
 	mate_test();
 	mate_test_castling();
