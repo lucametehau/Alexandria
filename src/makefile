@@ -13,9 +13,9 @@ else
 endif
 
 ifeq ($(OS), Windows_NT)
-    CFLAGS =  -static -static-libstdc++ -static-libgcc -pthread 
+    CFLAGS =  -static -static-libstdc++ -static-libgcc -pthread -DNDEBUG
 else
-	CFLAGS =  -pthread 
+	CFLAGS = -DNDEBUG -pthread 
 endif
 
 ifeq ($(build), release)

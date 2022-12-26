@@ -1,7 +1,5 @@
 #pragma once
-#ifndef NDEBUG
-#define NDEBUG
-#endif
+
 #include <cassert>
 #include <cctype>
 
@@ -29,8 +27,6 @@
 #define get_bit(bitboard, square) ((bitboard) & (1ULL << (square)))
 #define pop_bit(bitboard, square) ((bitboard) &= ~(1ULL << (square)))
 #define clr_bit(bitboard) ((bitboard) &= (bitboard - 1))
-
-#define TEST
 
 #define get_antidiagonal(sq) (get_rank[sq] + get_file[sq])
 
