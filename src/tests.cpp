@@ -89,12 +89,25 @@ void stalemate_test() {
 	}
 }
 
+void underpromotion_test() {
+	printf("\nUNDERPROMO TEST\n");
+	const std::array<pair_type, 2> tests = { {
+	   {"6n1/5P1k/5Q2/8/8/8/8/7K w - - 0 1", "f7f8n"},
+	   {"7k/8/8/8/8/5q2/5p1K/6N1 b - - 0 1", "f2f1n"},
+   } };
+
+	for (const auto& [fen, movestr] : tests) {
+		run_test(fen, movestr);
+	}
+}
+
 void run_tests()
 {
 	fifty_mr_test();
 	mate_test();
 	mate_test_castling();
 	stalemate_test();
+	underpromotion_test();
 
 
 }
