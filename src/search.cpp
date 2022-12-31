@@ -518,7 +518,7 @@ moves_loop:
 				SkipQuiets = true;
 				continue;
 			}
-
+			/*
 			// See pruning
 			if (depth <= 8
 				&& moves_searched >= 2
@@ -526,6 +526,7 @@ moves_loop:
 			{
 				continue;
 			}
+			*/
 		}
 
 		int extension = 0;
@@ -727,11 +728,13 @@ int Quiescence(int alpha, int beta, S_ThreadData* td) {
 		int move = move_list->moves[count].move;
 		int score = move_list->moves[count].score;
 		// See pruning
+		/*
 		if (score < goodCaptureScore
 			&& moves_searched >= 1)
 		{
 			continue;
 		}
+		*/
 		make_move(move, pos);
 		// increment nodes count
 		info->nodes++;
