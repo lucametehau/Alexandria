@@ -521,7 +521,7 @@ moves_loop:
 
 			// See pruning
 			if (depth <= 8
-				&& moves_searched >= 2
+				&& moves_searched >= 4
 				&& !SEE(pos, move, -50 * depth))
 			{
 				continue;
@@ -728,7 +728,7 @@ int Quiescence(int alpha, int beta, S_ThreadData* td) {
 		int score = move_list->moves[count].score;
 		// See pruning
 		if (score < goodCaptureScore
-			&& moves_searched >= 1)
+			&& moves_searched >= 3)
 		{
 			continue;
 		}
