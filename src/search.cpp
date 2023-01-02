@@ -509,15 +509,6 @@ moves_loop:
 
 		if (!root_node)
 		{
-			//Movecount pruning: if we searched enough quiet moves and we are not in check we skip the others
-			if (!pv_node
-				&& !in_check
-				&& depth < 4
-				&& isQuiet
-				&& (quiet_moves.count > (depth * 8))) {
-				SkipQuiets = true;
-				continue;
-			}
 
 			// See pruning
 			if (depth <= 8
