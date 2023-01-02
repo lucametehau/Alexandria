@@ -438,7 +438,7 @@ int negamax(int alpha, int beta, int depth, S_ThreadData* td) {
 		}
 
 		// Reverse futility pruning 
-		if (depth < 9
+		if (depth < 7
 			&& eval - futility(depth, improving) >= beta)
 			return eval;
 
