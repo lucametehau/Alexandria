@@ -519,13 +519,6 @@ moves_loop:
 				continue;
 			}
 
-			// See pruning
-			if (depth <= 8
-				&& moves_searched >= 2
-				&& !SEE(pos, move, -50 * depth))
-			{
-				continue;
-			}
 		}
 
 		int extension = 0;
@@ -726,12 +719,7 @@ int Quiescence(int alpha, int beta, S_ThreadData* td) {
 		pick_move(move_list, count);
 		int move = move_list->moves[count].move;
 		int score = move_list->moves[count].score;
-		// See pruning
-		if (score < goodCaptureScore
-			&& moves_searched >= 1)
-		{
-			continue;
-		}
+		
 		make_move(move, pos);
 		// increment nodes count
 		info->nodes++;
