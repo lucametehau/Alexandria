@@ -6,6 +6,7 @@
 void updateHH(const S_Board* pos, S_Stack* ss, const int depth, const int bestmove, const S_MOVELIST* quiet_moves) {
 	//define the history bonus
 	int bonus = depth * depth;
+
 	//Loop through all the quiet moves
 	for (int i = 0; i < quiet_moves->count; i++) {
 		int move = quiet_moves->moves[i].move;

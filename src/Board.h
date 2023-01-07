@@ -74,7 +74,7 @@ public:
 	int hisPly = 0; // total number of halfmoves
 	int castleperm = 0; // integer that represents the castling permission in its bits (1111) = all castlings allowed (0000) no castling
 	// unique  hashkey  that encodes a board position
-	PosKey posKey = 0ULL; 
+	PosKey posKey = 0ULL;
 	// stores the state of the board  rollback purposes
 	S_Undo	history[MAXDEPTH];
 	//Stores the zobrist keys of all the positions played in the game + the current search instance, used for 3-fold
@@ -98,6 +98,7 @@ typedef struct Stack {
 	int pvArray[MAXDEPTH + 1][MAXDEPTH + 1];
 	int searchHistory[12][Board_sq_num] = { 0 };
 	int searchKillers[2][MAXDEPTH] = { NOMOVE };
+	int64_t cont_hist[12][64][12][64] = { 0 };
 	int excludedMoves[MAXDEPTH] = { NOMOVE };
 	int CounterMoves[Board_sq_num][Board_sq_num] = { 0 };
 	int eval[MAXDEPTH] = { 0 };
