@@ -17,9 +17,7 @@
 
 constexpr int MAXGAMEMOVES = 1024;
 constexpr int MAXDEPTH = 128;
-constexpr int UNDOSIZE = MAXGAMEMOVES + MAXDEPTH;
 constexpr int Board_sq_num = 64;
-
 
 // set/get/pop bit macros
 #define set_bit(bitboard, square) ((bitboard) |= (1ULL << (square)))
@@ -56,7 +54,6 @@ constexpr int get_diagonal[Board_sq_num] = { 14, 13, 12, 11, 10, 9,  8,  7, 13, 
 extern int reductions[MAXDEPTH];
 
 typedef struct Undo {
-	int move = 0;
 	int castlePerm = 15;
 	int capture = EMPTY;
 	int enPas = 0;
@@ -76,12 +73,12 @@ public:
 	int ply = 0; // number of halfmoves in a search instance
 	int hisPly = 0; // total number of halfmoves
 	int castleperm = 0; // integer that represents the castling permission in its bits (1111) = all castlings allowed (0000) no castling
-
-	PosKey posKey = 0ULL; // unique  hashkey  that encodes a board position
-
-	S_Undo	history[UNDOSIZE]; // stores every single move and the state of the board when that move was made for rollback purposes
-	// Stores the keys of every single position that happened on the board to detect 3-fold
-	std::vector<PosKey> played_positions={};
+	// unique  hashkey  that encodes a board position
+	PosKey posKey = 0ULL; 
+	// stores the state of the board  rollback purposes
+	S_Undo	history[MAXDEPTH];
+	//Stores the zobrist keys of all the positions played in the game + the current search instance, used for 3-fold
+	std::vector<PosKey> played_positions = {};
 	// Occupancies bitboards based on piece and side
 	Bitboard bitboards[12]{ 0ULL };
 	Bitboard occupancies[3] = { 0ULL };
@@ -105,20 +102,28 @@ typedef struct Stack {
 	int searchKillers[2][MAXDEPTH] = { NOMOVE };
 	int excludedMoves[MAXDEPTH] = { NOMOVE };
 	int CounterMoves[Board_sq_num][Board_sq_num] = { 0 };
-	int eval[MAXGAMEMOVES + MAXDEPTH] = { 0 };
+	int eval[MAXDEPTH] = { 0 };
+	int move[MAXDEPTH] = { 0 };
 	int NodesMove[64][64] = { 0 };
 } S_Stack;
 
 extern Bitboard SQUARES_BETWEEN_BB[Board_sq_num][Board_sq_num];
-
-typedef struct info {
+//Hold the data from the uci input to set search parameters and some search data to populate the uci output
+struct S_SearchINFO {
+	//search start time 
 	long starttime = 0;
+	//search time initial lower bound if present
 	long stoptimeOpt = 0;
+	//search time upper bound if present
 	long stoptimeMax = 0;
+	//max depth to reach for depth limited searches
 	int depth = -1;
 	int seldepth = -1;
+	//types of search limits
 	bool timeset = false;
 	bool nodeset = false;
+	bool movetimeset = false;
+
 	int movestogo = -1;
 	uint64_t nodes = 0;
 	uint64_t nodeslimit = 0;
@@ -126,8 +131,7 @@ typedef struct info {
 
 	bool stopped = false;
 
-
-} S_SearchINFO;
+};
 
 // castling rights update constants
 extern const int castling_rights[Board_sq_num];
@@ -190,5 +194,7 @@ int get_ep_square(const S_Board* pos);
 int get_fifty_moves_counter(const S_Board* pos);
 int get_castleperm(const S_Board* pos);
 int get_poskey(const S_Board* pos);
+
+void accumulate(NNUE::accumulator& board_accumulator, S_Board* pos);
 
 
