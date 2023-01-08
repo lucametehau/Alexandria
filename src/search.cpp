@@ -215,13 +215,11 @@ static inline void score_moves(S_Board* pos, S_Stack* ss, S_MOVELIST* move_list,
 			continue;
 		}
 		//if the move isn't in any of the previous categories score it according to the history heuristic
+
 		else {
-			move_list->moves[i].score = getHHScore(pos, ss, move)+ 2 * (pos->ply > 0 ? cont_table[stack[ply - 1].piece][stack[ply - 1].to]
-				[piece_on(pos, moves[j].from)][moves[j].to]
+			move_list->moves[i].score = getHHScore(pos, ss, move) + 2 * (pos->ply > 0 ? ss->cont_hist[get_move_piece(ss->move[pos->ply])][To(ss->move[pos->ply])][get_move_piece(move)][To(move)]
 				: 0) +
-				2 * (ply > 1 ? cont_table[stack[ply - 2].piece][stack[ply - 2].to]
-					[piece_on(pos, moves[j].from)][moves[j].to]
-					: 0);;
+				2 * (pos->ply > 1 ? ss->cont_hist[get_move_piece(ss->move[pos->ply - 1])][To(ss->move[pos->ply - 1])][get_move_piece(move)][To(move)] : 0);
 			continue;
 		}
 	}
