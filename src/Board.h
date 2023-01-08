@@ -100,6 +100,7 @@ typedef struct Stack {
 	int searchKillers[2][MAXDEPTH] = { NOMOVE };
 	int excludedMoves[MAXDEPTH] = { NOMOVE };
 	int CounterMoves[Board_sq_num][Board_sq_num] = { 0 };
+	int64_t cont_hist[12][64][12][64] = { 0 };
 	int eval[MAXDEPTH] = { 0 };
 	int move[MAXDEPTH] = { 0 };
 } S_Stack;
