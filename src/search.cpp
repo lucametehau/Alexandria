@@ -215,8 +215,11 @@ static inline void score_moves(S_Board* pos, S_Stack* ss, S_MOVELIST* move_list,
 			continue;
 		}
 		//if the move isn't in any of the previous categories score it according to the history heuristic
+
 		else {
-			move_list->moves[i].score = getHHScore(pos, ss, move);
+			move_list->moves[i].score = getHHScore(pos, ss, move) + 2 * (pos->ply > 0 ? ss->cont_hist[get_move_piece(ss->move[pos->ply])][To(ss->move[pos->ply])][get_move_piece(move)][To(move)]
+				: 0) +
+				2 * (pos->ply > 1 ? ss->cont_hist[get_move_piece(ss->move[pos->ply - 1])][To(ss->move[pos->ply - 1])][get_move_piece(move)][To(move)] : 0);
 			continue;
 		}
 	}
@@ -633,10 +636,23 @@ moves_loop:
 						}
 
 						//Save CounterMoves
-						int previousMove = ss->move[pos->ply];
-						ss->CounterMoves[From(previousMove)][To(previousMove)] = move;
+						int previous_move = ss->move[pos->ply];
+						int previous_previous_move = ss->move[pos->ply - 1];
+						ss->CounterMoves[From(previous_move)][To(previous_move)] = move;
 						//Update the history heuristic based on the new best move
 						updateHH(pos, ss, depth, bestmove, &quiet_moves);
+
+						//Update Conthist
+						if (pos->ply > 0) {
+
+							ss->cont_hist[get_move_piece(previous_move)][To(previous_move)][get_move_piece(bestmove)][To(bestmove)] +=
+								depth * depth;  // Score countermove
+							if (pos->ply > 1) {
+								ss->cont_hist[get_move_piece(previous_previous_move)][To(previous_previous_move)][get_move_piece(bestmove)][To(bestmove)] +=
+									depth * depth;  // Score followup
+							}
+						}
+
 					}
 					// node (move) fails high
 					break;
