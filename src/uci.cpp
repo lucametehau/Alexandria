@@ -308,6 +308,8 @@ void Uci_Loop(char** argv) {
 			//Join previous search thread if it exists
 			if (main_search_thread.joinable())
 				main_search_thread.join();
+			//free thread data
+			delete td;
 			// quit from the chess engine program execution
 			break;
 		}
