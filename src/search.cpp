@@ -245,9 +245,8 @@ void Root_search_position(int depth, S_ThreadData* td, S_UciOptions* options) {
 	//Init a thread_data object for each helper thread that doesn't have one already
 	for (int i = threads_data.size(); i < options->Threads - 1;i++)
 	{
-		S_ThreadData thread_data;
-		thread_data.id = i + 1;
-		threads_data.emplace_back(thread_data);
+		threads_data.emplace_back();
+		threads_data.back().id = i + 1;
 	}
 
 	//Init thread_data objects
