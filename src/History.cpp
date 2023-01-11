@@ -4,12 +4,13 @@
 //Update the history heuristics of all the quiet moves passed to the function
 void updateHH(const S_Board* pos, Search_data* sd, const int depth, const int bestmove, const S_MOVELIST* quiet_moves) {
 	//define the history bonus
-	int bonus = depth * depth;
+	int bonus = std::min(200 * depth, 1962);
 	//Loop through all the quiet moves
-	for (int i = 0; i < quiet_moves->count; i++) {
+	for (int i = 0; i < quiet_moves->count; i++)
+	{
 		int move = quiet_moves->moves[i].move;
 		//Scale the history bonus in order to cap the history value to +-32768
-		bonus = bonus - getHHScore(pos, sd, move) * abs(bonus) / 32768;
+		bonus = bonus - getHHScore(pos, sd, move) * abs(bonus) / 16384;
 		//We increase the score for the bestmove
 		if (move == bestmove) {
 			sd->searchHistory[pos->side][From(bestmove)]

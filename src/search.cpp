@@ -628,7 +628,8 @@ moves_loop:
 				if (Score >= beta)
 				{
 					//If the move that caused the beta cutoff is quiet we have a killer move
-					if (IsQuiet(move)) {
+					if (IsQuiet(move)) 
+					{
 						//Don't update killer moves if it would result in having 2 identical killer moves
 						if (sd->searchKillers[0][pos->ply] != bestmove) {
 							// store killer moves
@@ -641,7 +642,6 @@ moves_loop:
 						sd->CounterMoves[From(previous_move)][To(previous_move)] = move;
 						//Update the history heuristic based on the new best move
 						updateHH(pos, sd, depth, bestmove, &quiet_moves);
-
 					}
 					// node (move) fails high
 					break;
