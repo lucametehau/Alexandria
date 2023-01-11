@@ -9,7 +9,7 @@ struct Search_stack {
 };
 
 struct Search_data {
-	int searchHistory[12][Board_sq_num] = { 0 };
+	int searchHistory[2][12][Board_sq_num] = { 0 };
 	int searchKillers[2][MAXDEPTH] = { NOMOVE };
 	int CounterMoves[Board_sq_num][Board_sq_num] = { 0 };
 };
