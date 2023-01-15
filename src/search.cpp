@@ -208,7 +208,7 @@ static inline void score_moves(S_Board* pos, Search_data* sd, Search_stack* ss, 
 		}
 		//if the move isn't in any of the previous categories score it according to the history heuristic
 		else {
-			move_list->moves[i].score = getHHScore(pos, sd, move);
+			move_list->moves[i].score = getHHScore(pos, sd, move) + getCHScore(pos, sd, move, (ss - 1)->move, (ss - 2)->move);
 			continue;
 		}
 	}
@@ -630,9 +630,11 @@ moves_loop:
 
 						//Save CounterMoves
 						int previous_move = pos->ply >= 1 ? (ss - 1)->move : NOMOVE;
+						int previous_previous_move = pos->ply >= 2 ? (ss - 2)->move : NOMOVE;
 						sd->CounterMoves[From(previous_move)][To(previous_move)] = move;
 						//Update the history heuristic based on the new best move
 						updateHH(pos, sd, depth, bestmove, &quiet_moves);
+						updateCH(pos, sd, depth, bestmove, previous_move, previous_previous_move);
 
 					}
 					// node (move) fails high
