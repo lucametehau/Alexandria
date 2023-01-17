@@ -67,7 +67,6 @@ void StoreHashEntry(const S_Board* pos, const int move, int score, const int fla
 
 uint64_t Index(const PosKey posKey) {
 	return  (static_cast<uint32_t>(posKey) * static_cast<uint64_t>(HashTable->pTable.size())) >> 32;
-
 }
 
 //prefetches the data in the given address in l1/2 cache in a non blocking way.

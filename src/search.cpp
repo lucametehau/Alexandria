@@ -56,6 +56,12 @@ void ClearForSearch(S_ThreadData* td) {
 	S_SearchINFO* info = &td->info;
 	PvTable* pv_table = &td->pv_table;
 
+	for (int index = 0; index < 12; ++index) {
+		for (int index2 = 0; index2 < 64; ++index2) {
+			td->ss.searchHistory[index][index2] /= 2;
+		}
+	}
+
 	//Clean the Pv array
 	for (int index = 0; index < MAXDEPTH + 1; ++index) {
 		pv_table->pvLength[index] = 0;
