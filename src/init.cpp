@@ -255,9 +255,10 @@ void init_new_game(S_ThreadData* td) {
 	PvTable* pv_table = &td->pv_table;
 
 	//For every piece [12] moved to every square [64] we reset the searchHistory value
-	for (int index = 0; index < 12; ++index) {
+	for (int index = 0; index < 64; ++index) {
 		for (int index2 = 0; index2 < 64; ++index2) {
-			ss->searchHistory[index][index2] = 0;
+			ss->searchHistory[0][index][index2] = 0;
+			ss->searchHistory[1][index][index2] = 0;
 		}
 	}
 

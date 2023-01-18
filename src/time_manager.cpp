@@ -12,8 +12,8 @@ void optimum(S_SearchINFO* info, int time, int inc) {
 
 	//if we recieved a movetime command we need to spend exactly that amount of time on the move, so we don't scale
 	if (info->movetimeset) {
-		info->stoptimeMax = info->starttime + time;
-		info->stoptimeOpt = info->starttime + time;
+		info->stoptimeMax = info->starttime + time - 50;
+		info->stoptimeOpt = info->starttime + time - 50;
 	}
 	//else If we recieved a movestogo parameter we use total_time/movestogo
 	else if (info->timeset && info->movestogo != -1)
@@ -39,8 +39,6 @@ void optimum(S_SearchINFO* info, int time, int inc) {
 		info->stoptimeMax = info->starttime + maxtime;
 		info->stoptimeOpt = info->starttime + optime;
 	}
-
-
 
 }
 
