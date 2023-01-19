@@ -10,10 +10,9 @@ void updateHHScore(const S_Board* pos, Search_data* ss, int move, int bonus) {
 void updateHH(const S_Board* pos, Search_data* ss, const int depth, const int bestmove, const S_MOVELIST* quiet_moves)
 {
 	//define the history bonus
-	int bonus = depth > 13 ? 32 : 16 * depth * depth + 128 * std::max(depth - 1, 0);
-	if (depth > 1)
-		//increase bestmove HH score
-		updateHHScore(pos, ss, bestmove, bonus);
+	int bonus = depth > 13 ? 32 : 16 * depth * depth;
+	//increase bestmove HH score
+	updateHHScore(pos, ss, bestmove, bonus);
 	//Loop through all the quiet moves
 	for (int i = 0; i < quiet_moves->count; i++) {
 		int move = quiet_moves->moves[i].move;
