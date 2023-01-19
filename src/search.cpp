@@ -571,6 +571,8 @@ moves_loop:
 			&& IsQuiet(move)) {
 			//calculate by how much we should reduce the search depth 
 			depth_reduction = reduction(pv_node, improving, depth, moves_searched);
+			// prevent dropping into QS, extending, or reducing all extensions
+			depth_reduction = std::min(depth - 1, std::max(depth_reduction, 1));
 		}
 
 		// full depth search
