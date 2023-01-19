@@ -620,7 +620,7 @@ moves_loop:
 				if (Score >= beta)
 				{
 					//If the move that caused the beta cutoff is quiet we have a killer move
-					if (IsQuiet(move)) {
+					if (!get_move_capture(bestmove)) {
 						//Don't update killer moves if it would result in having 2 identical killer moves
 						if (ss->searchKillers[0] != bestmove) {
 							// store killer moves

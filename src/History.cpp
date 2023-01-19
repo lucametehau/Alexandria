@@ -7,11 +7,13 @@ void updateHHScore(const S_Board* pos, Search_data* ss, int move, int bonus) {
 }
 
 //Update the history heuristics of all the quiet moves passed to the function
-void updateHH(const S_Board* pos, Search_data* ss, const int depth, const int bestmove, const S_MOVELIST* quiet_moves) {
+void updateHH(const S_Board* pos, Search_data* ss, const int depth, const int bestmove, const S_MOVELIST* quiet_moves)
+{
 	//define the history bonus
 	int bonus = std::min(16 * depth * depth, 1200);
-	//increase bestmove HH score
-	updateHHScore(pos, ss, bestmove, bonus);
+	if (depth > 1)
+		//increase bestmove HH score
+		updateHHScore(pos, ss, bestmove, bonus);
 	//Loop through all the quiet moves
 	for (int i = 0; i < quiet_moves->count; i++) {
 		int move = quiet_moves->moves[i].move;
