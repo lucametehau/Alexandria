@@ -571,6 +571,7 @@ moves_loop:
 			&& IsQuiet(move)) {
 			//calculate by how much we should reduce the search depth 
 			depth_reduction = reduction(pv_node, improving, depth, moves_searched);
+			depth_reduction -= getHHScore(pos, sd, move) / 8192;
 		}
 
 		// full depth search
