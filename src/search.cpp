@@ -631,8 +631,6 @@ moves_loop:
 						//Save CounterMoves
 						int previous_move = pos->ply >= 1 ? (ss - 1)->move : NOMOVE;
 						sd->CounterMoves[From(previous_move)][To(previous_move)] = move;
-						//Update the history heuristic based on the new best move
-						updateHH(pos, sd, depth, bestmove, &quiet_moves);
 
 					}
 					// node (move) fails high
@@ -641,7 +639,8 @@ moves_loop:
 			}
 		}
 	}
-
+	//Update the history heuristic based on the new best move
+	updateHH(pos, sd, depth, bestmove, &quiet_moves);
 	// we don't have any legal moves to make in the current postion
 	if (move_list->count == 0) {
 		// if the king is in check return mating score (assuming closest distance to mating position) otherwise return stalemate 
