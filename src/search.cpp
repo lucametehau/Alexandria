@@ -735,6 +735,19 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 		{
 			continue;
 		}
+
+		if (get_move_capture(move))
+		{
+			int captured_piece = PieceOn(pos, To(move));
+			if (!in_check
+				&& !get_move_promoted(move)
+				&& BestScore + 450 + PieceValue[captured_piece] < alpha)
+			{
+				continue;
+			}
+
+		}
+
 		ss->move = move;
 		make_move(move, pos);
 		// increment nodes count
