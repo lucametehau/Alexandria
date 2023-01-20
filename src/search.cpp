@@ -522,7 +522,7 @@ moves_loop:
 				&& !in_check
 				&& depth < 4
 				&& isQuiet
-				&& (quiet_moves.count > (depth * 8))) {
+				&& (quiet_moves.count > (depth * 7))) {
 				SkipQuiets = true;
 				continue;
 			}
