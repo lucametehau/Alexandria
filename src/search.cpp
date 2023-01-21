@@ -29,7 +29,7 @@ static int IsRepetition(const S_Board* pos) {
 		// if we found the same position hashkey as the current position
 		if (pos->played_positions[index] == pos->posKey) {
 			// we found a repetition
-			return TRUE;
+			return false;
 		}
 
 	return FALSE;
