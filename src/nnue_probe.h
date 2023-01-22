@@ -1,6 +1,6 @@
 #ifndef NNUE_H
 #define NNUE_H
-
+#include "stdint.h"
 #ifndef __cplusplus
 #ifndef _MSC_VER
 #include <stdalign.h>

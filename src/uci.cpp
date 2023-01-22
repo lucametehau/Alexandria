@@ -3,7 +3,7 @@
 #include "io.h"
 #include "uci.h"
 #include "makemove.h"
-#include "misc.h"
+#include "misc_engine.h"
 #include "move.h"
 #include "types.h"
 #include "movegen.h"

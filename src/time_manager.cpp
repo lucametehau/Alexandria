@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
-#include "misc.h"
+#include "misc_engine.h"
 
 //Calculate how much time to spend on searching a move
 void optimum(S_SearchINFO* info, int time, int inc) {

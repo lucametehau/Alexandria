@@ -7,7 +7,7 @@
 #include "io.h"
 #include "magic.h"
 #include "makemove.h"
-#include "misc.h"
+#include "misc_engine.h"
 #include "threads.h"
 #include "move.h"
 #include "movegen.h"
@@ -348,7 +348,7 @@ int negamax(int alpha, int beta, int depth, S_ThreadData* td, Search_stack* ss) 
 
 	// Initialize the node
 	bool in_check = IsInCheck(pos, pos->side);
-	S_MOVELIST quiet_moves;
+	S_MOVELIST quiet_moves = {};
 	quiet_moves.count = 0;
 	int root_node = (pos->ply == 0);
 	int eval, static_eval;

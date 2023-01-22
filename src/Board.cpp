@@ -3,11 +3,11 @@
 #include "hashkey.h"
 #include "makemove.h"
 #include "math.h"
-#include "nnue.h"
+#include "nnue_eval.h"
 #include "string.h"
 #include <cassert>
 #include <stdio.h>
-#include "misc.h"
+#include "misc_engine.h"
 #include <iostream>
 
 #if defined(_WIN64) && defined(_MSC_VER) // No Makefile used

@@ -3,7 +3,7 @@
 #include "ttable.h"
 #include <iostream>
 #include "init.h"
-#include "misc.h"
+#include "misc_engine.h"
 
 // Benchmarks from Bitgenie
 const char* benchmarkfens[50] = {

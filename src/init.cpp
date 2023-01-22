@@ -6,7 +6,7 @@
 #include "random.h"
 #include "stdint.h"
 #include <cmath>
-#include "misc.h"
+#include "misc_engine.h"
 #include "ttable.h"
 #include "threads.h"
 
@@ -243,7 +243,7 @@ void init_all() {
 	initializeLookupTables();
 	initHashKeys();
 	InitReductions();
-	
+	init_nnue("nn-04cf2b4ed1da.nnue");
 }
 
 void init_new_game(S_ThreadData* td) {

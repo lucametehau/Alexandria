@@ -51,7 +51,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\nnue-probe\src\misc.h" />
+    <ClInclude Include="..\..\nnue-probe\src\nnue.h" />
     <ClInclude Include="src\datagen.h" />
     <ClInclude Include="src\History.h" />
     <ClInclude Include="src\attack.h" />
@@ -162,12 +164,12 @@
     <ClInclude Include="src\hashkey.h" />
     <ClInclude Include="src\incbin\incbin.h" />
     <ClInclude Include="src\movepicker.h" />
-    <ClInclude Include="src\nnue.h" />
+    <ClInclude Include="src\nnue_eval.h" />
     <ClInclude Include="src\init.h" />
     <ClInclude Include="src\io.h" />
     <ClInclude Include="src\magic.h" />
     <ClInclude Include="src\makemove.h" />
-    <ClInclude Include="src\misc.h" />
+    <ClInclude Include="src\misc_engine.h" />
     <ClInclude Include="src\move.h" />
     <ClInclude Include="src\movegen.h" />
     <ClInclude Include="src\perft.h" />
@@ -181,6 +183,8 @@
     <ClInclude Include="src\uci.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\nnue-probe\src\misc.cpp" />
+    <ClCompile Include="..\..\nnue-probe\src\nnue.cpp" />
     <ClCompile Include="src\datagen.cpp" />
     <ClCompile Include="src\History.cpp" />
     <ClCompile Include="src\attack.cpp" />
@@ -193,9 +197,9 @@
     <ClCompile Include="src\magic.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\makemove.cpp" />
-    <ClCompile Include="src\misc.cpp" />
+    <ClCompile Include="src\misc_engine.cpp" />
     <ClCompile Include="src\movegen.cpp" />
-    <ClCompile Include="src\nnue.cpp" />
+    <ClCompile Include="src\nnue_eval.cpp" />
     <ClCompile Include="src\movepicker.cpp" />
     <ClCompile Include="src\perft.cpp" />
     <ClCompile Include="src\PieceData.cpp" />
