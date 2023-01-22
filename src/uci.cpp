@@ -114,8 +114,7 @@ void parse_position(const std::string& command, S_Board* pos) {
 		parse_moves(moves_substr, pos);
 	}
 
-	//Update accumulator state to reflect the new position
-	accumulate(pos->accumulator, pos);
+
 }
 
 /*
@@ -337,17 +336,7 @@ void Uci_Loop(char** argv) {
 			print_board(&td->pos);
 		}
 
-		else if (input == "eval")
-		{// call parse position function
-			if (!parsed_position)
-			{
-				parse_position("position startpos", &td->pos);
-			}
-			// print position eval
-			printf(
-				"the eval of this position according to the neural network is %d\n",
-				nnue.output(td->pos.accumulator));
-		}
+	
 
 		else if (input == "bench") {
 			start_bench();

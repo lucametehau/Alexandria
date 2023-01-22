@@ -243,7 +243,7 @@ void init_all() {
 	initializeLookupTables();
 	initHashKeys();
 	InitReductions();
-	nnue.init("nn.net");
+	
 }
 
 void init_new_game(S_ThreadData* td) {

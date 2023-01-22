@@ -58,8 +58,6 @@ const int castling_rights[64] = {
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
 	15, 15, 15, 15, 15, 15, 15, 15, 13, 15, 15, 15, 12, 15, 15, 14 };
 
-NNUE nnue = NNUE();
-
 int count_bits(Bitboard b) {
 #if defined(_MSC_VER) || defined(__INTEL_COMPILER)
 
@@ -131,13 +129,6 @@ void ResetBoard(S_Board* pos) {
 	pos->checkMask = 18446744073709551615ULL;
 	pos->checks = 0;
 
-	// set default nnue values
-	for (size_t i = 0; i < HIDDEN_BIAS; i++) {
-		pos->accumulator[i] = nnue.hiddenBias[i];
-	}
-
-	//Reset nnue accumulator stack
-	pos->accumulatorStack.clear();
 }
 
 void Reset_info(S_SearchINFO* info) {
@@ -301,9 +292,6 @@ void parse_fen(const std::string& command, S_Board* pos) {
 
 	pos->posKey = GeneratePosKey(pos);
 
-	//Update nnue accumulator to reflect board state
-	accumulate(pos->accumulator, pos);
-
 }
 
 // parses the moves part of a fen string and plays all the moves included
@@ -383,18 +371,4 @@ int get_castleperm(const S_Board* pos) {
 }
 int get_poskey(const S_Board* pos) {
 	return pos->posKey;
-}
-
-
-void accumulate(NNUE::accumulator& board_accumulator, S_Board* pos) {
-
-	for (int i = 0; i < HIDDEN_BIAS; i++) {
-		board_accumulator[i] = nnue.hiddenBias[i];
-	}
-
-	for (int i = 0; i < 64; i++) {
-		bool input = pos->pieces[i] != EMPTY;
-		if (!input) continue;
-		nnue.add(board_accumulator, pos->pieces[i], i);
-	}
 }

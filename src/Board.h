@@ -9,6 +9,7 @@
 #ifdef __GNUC__
 #define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
 #endif
+#include <vector>
 
 #ifdef _MSC_VER
 #define PACK(__Declaration__) \
@@ -86,9 +87,6 @@ public:
 	// Occupancies bitboards based on piece and side
 	Bitboard bitboards[12]{ 0ULL };
 	Bitboard occupancies[3] = { 0ULL };
-	NNUE::accumulator accumulator = {};
-	//Previous values of the nnue accumulators. always empty at the start of search
-	std::vector<std::array<int16_t, HIDDEN_BIAS>> accumulatorStack = {};
 
 	int checks = -1;
 };
@@ -135,9 +133,6 @@ constexpr char FileChar[] = "abcdefgh";
 
 // ASCII pieces
 constexpr char ascii_pieces[13] = "PNBRQKpnbrqk";
-
-// NNUE
-extern NNUE nnue;
 
 // counts how many bits are set in a bitboard
 int count_bits(Bitboard bitboard);
@@ -186,6 +181,5 @@ int get_fifty_moves_counter(const S_Board* pos);
 int get_castleperm(const S_Board* pos);
 int get_poskey(const S_Board* pos);
 
-void accumulate(NNUE::accumulator& board_accumulator, S_Board* pos);
 
 
