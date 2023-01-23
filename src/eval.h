@@ -20,4 +20,4 @@ extern const int mirror_score[128];
 //Returns if the position is a draw because there isn't enough mating material
 int MaterialDraw(const S_Board* pos);
 // position evaluation
-int EvalPosition(const S_Board* pos);
+int EvalPosition(const S_Board* pos, S_SearchINFO* info);
