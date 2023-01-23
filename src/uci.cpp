@@ -18,6 +18,7 @@
 #include <thread>
 #include "datagen.h"
 #include "threads.h"
+#include "nnue_eval.h"
 bool print_uci = false;
 //convert a move to coordinate notation to internal notation
 int parse_move(const std::string& move_string, S_Board* pos) {
@@ -330,7 +331,16 @@ void Uci_Loop(char** argv) {
 			//Set uci compatible output mode
 			print_uci = true;
 		}
-
+		else if (input == "eval")
+		{// call parse position function
+			if (!parsed_position)
+			{
+				parse_position("position startpos", &td->pos);
+			}
+			// print position eval
+			printf(
+				"the eval of this position according to the neural network is %d\n",evaluate_nnue(&td->pos));
+		}
 		// parse UCI "uci" command
 		else if (input == "d") {
 			print_board(&td->pos);

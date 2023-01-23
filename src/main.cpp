@@ -21,6 +21,7 @@ int main([[maybe_unused]] int argc, char** argv) {
 	// init all
 	init_all();
 	std::cout << evaluate_fen_nnue(start_position)<<std::endl;
+	
 	InitHashTable(HashTable, 16);
 	// connect to the GUI
 	Uci_Loop(argv);

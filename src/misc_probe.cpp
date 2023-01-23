@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include "misc.h"
+#include "misc_probe.h"
 
 FD open_file(const char *name)
 {

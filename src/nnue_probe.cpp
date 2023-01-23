@@ -38,9 +38,9 @@
 #endif
 
 //-------------------
-#include "misc.h"
+#include "misc_probe.h"
 #define DLL_EXPORT
-#include "nnue.h"
+#include "nnue_probe.h"
 #undef DLL_EXPORT
 
 #define KING(c)    ( (c) ? bking : wking )

@@ -9,6 +9,7 @@
 #include "misc_engine.h"
 #include "ttable.h"
 #include "threads.h"
+#include "nnue_eval.h"
 
 Bitboard PieceKeys[12][64];
 Bitboard enpassant_keys[64];

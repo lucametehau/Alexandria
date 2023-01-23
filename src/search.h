@@ -1,6 +1,7 @@
 #pragma once
 #include "Board.h"
 #include "uci.h"
+#include "move.h"
 
 struct Search_stack {
 	int excludedMove = { NOMOVE };

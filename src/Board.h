@@ -2,7 +2,6 @@
 #include <cassert>
 #include <cctype>
 #include <string>
-#include "nnue_eval.h"
 #include "stdint.h"
 #include "move.h"
 #include "types.h"

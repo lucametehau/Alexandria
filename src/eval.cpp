@@ -6,6 +6,7 @@
 #include "magic.h"
 #include "stdio.h"
 #include "stdlib.h"
+#include "nnue_eval.h"
 
 // if we don't have enough material to mate consider the position a draw
 int MaterialDraw(const S_Board* pos) {
@@ -20,5 +21,5 @@ int MaterialDraw(const S_Board* pos) {
 
 // position evaluation
 int EvalPosition(const S_Board* pos) {
-	return 1;
+	return evaluate_nnue(pos);
 }
