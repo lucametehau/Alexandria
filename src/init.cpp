@@ -45,7 +45,7 @@ Bitboard rook_attacks[64][4096];
 
 Bitboard SQUARES_BETWEEN_BB[64][64];
 
-int reductions[MAXDEPTH];
+int reductions[MAXDEPTH][256];
 
 //Initialize the Zobrist keys
 void initHashKeys() {
@@ -231,7 +231,9 @@ void DoPinMask(S_Board* pos, int color, int sq) {
 //PreCalculate the logarithms used in the reduction calculation
 void InitReductions() {
 	for (int i = 0; i < MAXDEPTH; i++) {
-		reductions[i] = static_cast<int>(log(i));
+		for (int j = 0; j < 256; j++) {
+			reductions[i][j] = static_cast<int>(log(i) * log(j));
+		}
 	}
 }
 

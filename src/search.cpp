@@ -223,7 +223,7 @@ int futility(int depth, bool improving) { return 66 * (depth - improving); }
 
 //Calculate a reduction margin based on the search depth and the number of moves played
 static inline int reduction(bool pv_node, bool improving, int depth, int num_moves) {
-	return  reductions[depth] * reductions[num_moves] + !improving + !pv_node;
+	return  reductions[depth][num_moves] + !improving + !pv_node;
 }
 
 int getBestMove(const PvTable* pv_table) {
