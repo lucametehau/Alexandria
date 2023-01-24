@@ -222,8 +222,15 @@ static inline void score_moves(S_Board* pos, Search_data* sd, Search_stack* ss, 
 int futility(int depth, bool improving) { return 66 * (depth - improving); }
 
 //Calculate a reduction margin based on the search depth and the number of moves played
-static inline int reduction(bool pv_node, bool improving, int depth, int num_moves) {
-	return  reductions[depth][num_moves] + !improving + !pv_node;
+static inline int reduction(bool pv_node, bool improving, int depth, int num_moves) 
+{
+	//Get base reduction value from the reduction formula (see init reductions for said formula)
+	int reduction = reductions[depth][num_moves];
+	//Reduce more if we aren't improving
+	reduction += !improving;
+	//Reduce more on non pv nodes
+	reduction += !pv_node;
+	return reduction;
 }
 
 int getBestMove(const PvTable* pv_table) {
