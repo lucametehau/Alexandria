@@ -232,7 +232,7 @@ void DoPinMask(S_Board* pos, int color, int sq) {
 void InitReductions() {
 	for (int i = 0; i < MAXDEPTH; i++) {
 		for (int j = 0; j < 256; j++) {
-			reductions[i][j] = static_cast<int>(log(i) * log(j));
+			reductions[i][j] = static_cast<int>(log(i)) * static_cast<int>(log(j));
 		}
 	}
 }
