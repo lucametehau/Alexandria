@@ -476,7 +476,7 @@ int negamax(int alpha, int beta, int depth, S_ThreadData* td, Search_stack* ss) 
 
 		// razoring
 		if ((depth <= 3) &&
-			(eval + 119 + 182 * (depth) <= alpha))
+			(eval + 119 + 182 * depth <= alpha))
 		{
 			return Quiescence(alpha, beta, td, ss);
 		}
@@ -582,10 +582,7 @@ moves_loop:
 		{
 			//calculate by how much we should reduce the search depth 
 			depth_reduction = reduction(pv_node, improving, depth, moves_searched);
-			// adjust reduction based on historical score
-			depth_reduction -= getHHScore(pos, sd, move) / 8192;
-			// prevent dropping into QS, extending, or reducing all extensions
-			depth_reduction = std::min(depth - 1, std::max(depth_reduction, 1));
+
 			// search current move with reduced depth:
 			Score = -negamax(-alpha - 1, -alpha, newDepth - depth_reduction, td, ss + 1);
 			//if we failed high on a reduced node we'll search with a reduced window and full depth
