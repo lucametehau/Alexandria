@@ -652,8 +652,8 @@ moves_loop:
 		// if the king is in check return mating score (assuming closest distance to mating position) otherwise return stalemate 
 		BestScore = excludedMove ? alpha : in_check ? (-mate_value + pos->ply) : 0;
 	}
-	//Set the TT flag based on whether the BestScore is better than beta and if not based on if we changed alpha or not
 
+	//Set the TT flag based on whether the BestScore is better than beta and if not based on if we changed alpha or not
 	int flag = BestScore >= beta ? HFBETA : (alpha != old_alpha) ? HFEXACT : HFALPHA;
 
 	if (!excludedMove) StoreHashEntry(pos, bestmove, BestScore, ss->static_eval, flag, depth, pv_node);
@@ -694,16 +694,6 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 		return in_check ? 0 : EvalPosition(pos);
 	}
 
-	//Get a static evaluation of the position
-	standing_pat = EvalPosition(pos);
-
-	alpha = std::max(alpha, standing_pat);
-
-	if (standing_pat >= beta) return standing_pat;
-
-	//TThit is true if and only if we find something in the TT
-	TThit = ProbeHashEntry(pos, &tte);
-
 	//If we found a value in the TT we can return it
 	if (!pv_node
 		&& TThit)
@@ -713,6 +703,16 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 			(tte.flags == HFEXACT))
 			return tte.score;
 	}
+
+	//Get a static evaluation of the position
+	standing_pat = TThit ? tte.eval : EvalPosition(pos);
+
+	alpha = std::max(alpha, standing_pat);
+
+	if (standing_pat >= beta) return standing_pat;
+
+	//TThit is true if and only if we find something in the TT
+	TThit = ProbeHashEntry(pos, &tte);
 
 	// create move list instance
 	S_MOVELIST move_list[1];
