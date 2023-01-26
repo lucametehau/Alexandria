@@ -672,7 +672,6 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 	bool pv_node = (beta - alpha) > 1;
 	//tte is an hashtable entry, it will store the values fetched from the TT
 	S_HashEntry tte;
-	bool TThit = false;
 	int standing_pat = 0;
 
 	// check if more than Maxtime passed and we have to stop
@@ -694,26 +693,32 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 		return in_check ? 0 : EvalPosition(pos);
 	}
 
-	//If we found a value in the TT we can return it
+	//Probe the TT for useful previous search informations, we avoid doing so if we are searching a singular extension
+	bool ttHit = ProbeHashEntry(pos, &tte);
+	//If we found a value in the TT for this position, and the depth is equal or greater we can return it (pv nodes are excluded)
 	if (!pv_node
-		&& TThit)
+		&& ttHit)
 	{
-		if ((tte.flags == HFALPHA && tte.score <= alpha) ||
-			(tte.flags == HFBETA && tte.score >= beta) ||
-			(tte.flags == HFEXACT))
+		if ((tte.flags == HFALPHA && tte.score <= alpha)
+			|| (tte.flags == HFBETA && tte.score >= beta)
+			|| (tte.flags == HFEXACT))
 			return tte.score;
 	}
 
+	//If we are in check or searching a singular extension we avoid pruning before the move loop
+	if (in_check) {
+		ss->static_eval = value_none;
+		goto moves_loop;
+	}
+
 	//Get a static evaluation of the position
-	standing_pat = TThit ? tte.eval : EvalPosition(pos);
+	ss->static_eval = standing_pat = ttHit ? tte.eval : EvalPosition(pos);
 
 	alpha = std::max(alpha, standing_pat);
 
 	if (standing_pat >= beta) return standing_pat;
 
-	//TThit is true if and only if we find something in the TT
-	TThit = ProbeHashEntry(pos, &tte);
-
+moves_loop:
 	// create move list instance
 	S_MOVELIST move_list[1];
 
