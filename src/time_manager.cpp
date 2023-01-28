@@ -25,6 +25,7 @@ void optimum(S_SearchINFO* info, int time, int inc) {
 		info->stoptimeMax = info->starttime + basetime;
 		info->stoptimeOpt = info->starttime + basetime;
 	}
+
 	// else if we recieved wtime/btime we calculate an over and upper bound for the time usage based on fixed coefficients
 	else if (info->timeset)
 	{
@@ -39,8 +40,6 @@ void optimum(S_SearchINFO* info, int time, int inc) {
 		info->stoptimeMax = info->starttime + maxtime;
 		info->stoptimeOpt = info->starttime + optime;
 	}
-
-
 
 }
 

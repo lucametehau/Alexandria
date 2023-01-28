@@ -735,11 +735,21 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 		pick_move(move_list, count);
 		int move = move_list->moves[count].move;
 		int score = move_list->moves[count].score;
-		// See pruning
-		if (score < goodCaptureScore
-			&& moves_searched >= 1)
-		{
-			continue;
+		if (BestScore > -ISMATE) {
+
+			// See pruning
+			if (score < goodCaptureScore
+				&& moves_searched >= 1)
+			{
+				continue;
+			}
+
+			// Delta pruning
+			int gained_value = PieceValue[PieceOn(pos, From(move))];
+			if (get_move_capture(move)
+				&& !in_check
+				&& BestScore + gained_value < alpha)
+				continue;
 		}
 		ss->move = move;
 		make_move(move, pos);
