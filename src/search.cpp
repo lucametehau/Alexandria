@@ -748,7 +748,7 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 			int gained_value = PieceValue[PieceOn(pos, From(move))];
 			if (get_move_capture(move)
 				&& !in_check
-				&& BestScore + gained_value < alpha)
+				&& BestScore + gained_value + 400 < alpha)
 				continue;
 		}
 		ss->move = move;
