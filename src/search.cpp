@@ -747,8 +747,9 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 			// Delta pruning: if the current score + the value of the piece we will capture + a safety margin is still below beta we can skip this move
 			int gained_value = PieceValue[PieceOn(pos, To(move))];
 			if (get_move_capture(move)
+				&& !get_move_promoted(move)
 				&& !in_check
-				&& BestScore + gained_value + 400 < alpha)
+				&& BestScore + gained_value + 500 < alpha)
 				continue;
 		}
 		ss->move = move;
