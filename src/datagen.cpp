@@ -11,6 +11,7 @@
 #include "History.h"
 #include "time_manager.h"
 unsigned long long total_fens = 0;
+std::atomic<bool> stop_flag = false;
 void make_random_move(S_Board* pos) {
 	srand(time(NULL));
 	S_MOVELIST move_list[1];
@@ -166,7 +167,7 @@ void datagen(S_ThreadData* td, Datagen_params params)
 		for (int i = 1;i <= params.games;i++)
 		{
 			//Allow the user to stop datagen early
-			if (td->info.stopped) 
+			if (stop_flag) 
 			{
 				if (td->id == 0)
 				std::cout << "Stopping datagen...\n";

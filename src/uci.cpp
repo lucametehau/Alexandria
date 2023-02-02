@@ -373,10 +373,12 @@ void Uci_Loop(char** argv)
 		// parse UCI "stop" command
 		else if (input == "stop")
 		{
+			stop_flag = true;
 			//Stop helper threads
 			stopHelperThreads();
 			//stop main thread search
 			td->info.stopped = true;
+			
 		}
 
 		// parse UCI "quit" command

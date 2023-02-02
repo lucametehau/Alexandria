@@ -1,4 +1,7 @@
 #pragma once
+#include <atomic>
+//Global atomic flag to stop datagen threads
+extern std::atomic<bool> stop_flag;
 //The internal structure of a "fen" worth of training data, in Cudad format
 struct data_entry {
 	std::string fen;
