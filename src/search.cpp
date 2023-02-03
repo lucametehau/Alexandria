@@ -17,8 +17,8 @@
 // IsRepetition handles the repetition detection of a position
 static int IsRepetition(const S_Board* pos) {
 	assert(pos->hisPly >= pos->fiftyMove);
-
-	for (int index = static_cast<int>(pos->played_positions.size() - 1);
+	
+	for (int index = static_cast<int>(pos->played_positions.size() - 2);
 		index >= 0 && index >= static_cast<int>(pos->played_positions.size()) - get_fifty_moves_counter(pos) - 1; index -= 2)
 		// if we found the same position hashkey as the current position
 		if (pos->played_positions[index] == pos->posKey) {
