@@ -223,7 +223,7 @@ bool play_game(S_ThreadData* td, std::ofstream& myfile)
 		//We don't save the position if the best move is a capture
 		if (get_move_capture(move)) continue;
 		//We don't save the position if the score is a mate score
-		if (abs(entry.score) > ISMATE) continue;
+		if (abs(entry.score) > 1000) continue;
 		//If we were in check we discard the position
 		if (in_check) continue;
 		//If we are at an early ply skip the position
@@ -257,11 +257,6 @@ bool is_game_over(S_Board* pos, std::string& wdl)
 	{
 		bool in_check = IsInCheck(pos, pos->side);
 		wdl = in_check ? pos->side == WHITE ? "[0.0]" : "[1.0]" : "[0.5]";
-		return true;
-	}
-	//Sanity check if the game somehow gets stuck in a loop
-	if (pos->ply > 1500) {
-		wdl = "[0.5]";
 		return true;
 	}
 	return false;

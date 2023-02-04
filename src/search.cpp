@@ -524,7 +524,8 @@ moves_loop:
 			}
 
 			// See pruning
-			if (depth <= 8
+			if (!pv_node
+				&& depth <= 8
 				&& moves_searched >= 2
 				&& !SEE(pos, move, -50 * depth))
 			{

@@ -257,7 +257,7 @@ void Uci_Loop(char** argv) {
 	std::thread main_thread;
 	state threads_state = Idle;
 	// print engine info
-	printf("id name Alexandria 4.0-dev\n");
+	printf("id name Alexandria 4.0-dev-datagen\n");
 
 	// main loop
 	while (1) {
