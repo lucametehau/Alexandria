@@ -252,7 +252,7 @@ void init_all()
 	InitReductions();
 	//Init TT
 	InitHashTable(HashTable, 16);
-	nnue.init("nn.net");
+	nnue.init("nn-original_data-300epoch.net");
 }
 
 void init_new_game(S_ThreadData* td) {
