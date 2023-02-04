@@ -1,6 +1,6 @@
 _THIS     := $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 _ROOT     := $(_THIS)
-EVALFILE   = $(_ROOT)/nn.net
+EVALFILE   = $(_ROOT)/nn-original_data-300epoch.net
 CXX       := g++
 TARGET    := Alexandria
 CXXFLAGS  :=  -Wall -Wcast-qual -fno-exceptions -std=gnu++2a -pedantic -Wextra -Wshadow -Wdouble-promotion -Wformat=2 -Wnull-dereference \
