@@ -590,7 +590,7 @@ moves_loop:
 		//Search every move (excluding the first of every node) that skipped or failed LMR with full depth but a reduced window
 		if (do_full_search)
 			Score = -negamax(-alpha - 1, -alpha, newDepth - 1, td, ss + 1);
-
+		 
 		// PVS Search: Search the first move and every move that is within bounds with full depth and a full window
 		if (pv_node && (moves_searched == 0 || (Score > alpha && Score < beta)))
 			Score = -negamax(-beta, -alpha, newDepth - 1, td, ss + 1);
