@@ -194,7 +194,7 @@ bool play_game(S_ThreadData* td, std::ofstream& myfile)
 {
 	S_Board* pos = &td->pos;
 	PvTable* pv_table = &td->pv_table;
-	for (int i = 0;i < 6; i++)
+	for (int i = 0;i < 10; i++)
 	{
 		make_random_move(pos);
 	}
@@ -257,6 +257,12 @@ bool is_game_over(S_Board* pos, std::string& wdl)
 	{
 		bool in_check = IsInCheck(pos, pos->side);
 		wdl = in_check ? pos->side == WHITE ? "[0.0]" : "[1.0]" : "[0.5]";
+		return true;
+	}
+	//Adj for draw
+	if (pos->ply > 1000)
+	{
+		wdl = "[0.5]";
 		return true;
 	}
 	return false;
