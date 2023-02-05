@@ -123,7 +123,7 @@ void Root_datagen(S_ThreadData* td, Datagen_params params)
 {
 	std::cout << "Starting datagen with " << params.threadnum << " threads and an estimated total of " << params.games * params.threadnum << " games" << std::endl;
 	//Resize TT to an appropriate size
-	InitHashTable(HashTable, 32 * params.threadnum);
+	InitHashTable(HashTable, 64 * params.threadnum);
 
 	//Init a thread_data object for each helper thread that doesn't have one already
 	for (int i = threads_data.size(); i < params.threadnum - 1;i++)
