@@ -90,7 +90,7 @@ int32_t NNUE::output(const NNUE::accumulator& board_accumulator) {
 	for (int i = 0; i < HIDDEN_BIAS; i++) {
 		output += relu(board_accumulator[i]) * hiddenWeights[i];
 	}
-	return output / (64 * 256);
+	return output / (16 * 256);
 }
 
 void NNUE::Clear(NNUE::accumulator& board_accumulator) {
