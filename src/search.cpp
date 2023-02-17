@@ -184,16 +184,6 @@ static inline void score_moves(S_Board* pos, Search_data* sd, Search_stack* ss, 
 				goodCaptureScore * SEE(pos, move, -107);
 			continue;
 		}
-		//First  killer move always comes after the TT move,the promotions and the good captures and before anything else
-		else if (ss->searchKillers[0] == move) {
-			move_list->moves[i].score = killerMoveScore0;
-			continue;
-		}
-		//Second killer move always comes after the first one
-		else if (ss->searchKillers[1] == move) {
-			move_list->moves[i].score = killerMoveScore1;
-			continue;
-		}
 		//After the killer moves try the Counter moves
 		else if (move == sd->CounterMoves[From(ss->move)][To(ss->move)])
 		{
