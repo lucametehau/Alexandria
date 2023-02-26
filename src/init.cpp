@@ -229,7 +229,7 @@ void DoPinMask(S_Board* pos, int color, int sq) {
 void InitReductions() {
 	for (int i = 0; i < MAXDEPTH; i++)
 	{
-		for (int j = 0; j < MAXDEPTH; j++)
+		for (int j = 0; j < MAXPLY; j++)
 		{
 			reductions[i][j] = 1+log(i) * log(j) / 1.58;
 		}
