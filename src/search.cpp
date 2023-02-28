@@ -204,7 +204,7 @@ static inline void score_moves(S_Board* pos, Search_data* sd, Search_stack* ss, 
 		else {
 			int previous_move = pos->ply >= 1 ? (ss - 1)->move : NOMOVE;
 			int previous_previous_move = pos->ply >= 2 ? (ss - 2)->move : NOMOVE;
-			move_list->moves[i].score = GetHHScore(pos, sd, move) + 2 * GetCHScore(pos, sd, move, previous_move, previous_previous_move);
+			move_list->moves[i].score = GetHHScore(pos, sd, move) + GetCHScore(pos, sd, move, previous_move, previous_previous_move);
 			continue;
 		}
 	}
@@ -216,12 +216,12 @@ static inline void score_moves(S_Board* pos, Search_data* sd, Search_stack* ss, 
 int futility(int depth, bool improving) { return 66 * (depth - improving); }
 
 //Calculate a reduction margin based on the search depth and the number of moves played
-static inline int reduction(bool pv_node, bool improving, int depth, int num_moves) 
+static inline int reduction(bool pv_node, bool improving, int depth, int num_moves)
 {
 	//Get base reduction value
 	int  depth_reduction = reductions[depth][num_moves];
 	//Reduce more if we aren't improving
-	depth_reduction += !improving; 
+	depth_reduction += !improving;
 	//Reduce more if we aren't in a pv node
 	depth_reduction += !pv_node;
 	return depth_reduction;
@@ -235,21 +235,21 @@ int GetBestMove(const PvTable* pv_table) {
 void RootSearch(int depth, S_ThreadData* td, S_UciOptions* options) {
 
 	//Init a thread_data object for each helper thread that doesn't have one already
-	for (int i = threads_data.size(); i < options->Threads - 1;i++)
+	for (int i = threads_data.size(); i < options->Threads - 1; i++)
 	{
 		threads_data.emplace_back();
 		threads_data.back().id = i + 1;
 	}
 
 	//Init thread_data objects
-	for (size_t i = 0; i < threads_data.size();i++)
+	for (size_t i = 0; i < threads_data.size(); i++)
 	{
 		threads_data[i].info = td->info;
 		threads_data[i].pos = td->pos;
 	}
 
 	// Start Threads-1 helper search threads
-	for (int i = 0; i < options->Threads - 1;i++)
+	for (int i = 0; i < options->Threads - 1; i++)
 	{
 		threads.emplace_back(std::thread(SearchPosition, 1, depth, &threads_data[i], options));
 	}
@@ -619,7 +619,7 @@ moves_loop:
 				alpha = Score;
 				//Update the pv table
 				pv_table->pvArray[pos->ply][pos->ply] = move;
-				for (int next_ply = pos->ply + 1;next_ply < pv_table->pvLength[pos->ply + 1];next_ply++)
+				for (int next_ply = pos->ply + 1; next_ply < pv_table->pvLength[pos->ply + 1]; next_ply++)
 				{
 					pv_table->pvArray[pos->ply][next_ply] = pv_table->pvArray[pos->ply + 1][next_ply];
 				}
