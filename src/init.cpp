@@ -231,7 +231,7 @@ void InitReductions() {
 	{
 		for (int j = 0; j < MAXPLY; j++)
 		{
-			reductions[i][j] = 1+log(i) * log(j) / 1.58;
+			reductions[i][j] = 1 + log(i) * log(j) / 1.58;
 		}
 
 	}
