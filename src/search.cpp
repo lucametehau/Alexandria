@@ -575,7 +575,7 @@ moves_loop:
 		int depth_reduction = 1;
 		bool do_full_search = false;
 		// conditions to consider LMR
-		if (moves_searched >= 2 + 2 * pv_node
+		if (moves_searched >= 3 + 1 * pv_node
 			&& depth >= 3
 			&& !in_check
 			&& IsQuiet(move))
