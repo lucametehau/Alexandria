@@ -392,7 +392,7 @@ int Negamax(int alpha, int beta, int depth, S_ThreadData* td, Search_stack* ss) 
 
 		//If we reached maxdepth we return a static evaluation of the position
 		if (pos->ply > MAXDEPTH - 1) {
-			return in_check ? 0 : EvalPosition(pos);
+			return in_check ? 0 : EvalPosition(pos, info);
 		}
 
 		// Mate distance pruning
@@ -429,7 +429,7 @@ int Negamax(int alpha, int beta, int depth, S_ThreadData* td, Search_stack* ss) 
 	}
 
 	// get static evaluation score
-	ss->static_eval = eval = ttHit ? tte.eval : EvalPosition(pos);
+	ss->static_eval = eval = ttHit ? tte.eval : EvalPosition(pos, info);
 
 	//if we aren't in check and the eval of this position is better than the position of 2 plies ago (or we were in check 2 plies ago), it means that the position is "improving" this is later used in some forms of pruning
 	improving = (pos->ply >= 2) && (ss->static_eval > (ss - 2)->static_eval || (ss - 2)->static_eval == value_none);
@@ -695,11 +695,11 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 
 	//If we reached maxdepth we return a static evaluation of the position
 	if (pos->ply > MAXDEPTH - 1) {
-		return in_check ? 0 : EvalPosition(pos);
+		return in_check ? 0 : EvalPosition(pos, info);
 	}
 
 	//Get a static evaluation of the position
-	standing_pat = EvalPosition(pos);
+	standing_pat = EvalPosition(pos, info);
 
 	alpha = std::max(alpha, standing_pat);
 

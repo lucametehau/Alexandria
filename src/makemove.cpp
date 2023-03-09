@@ -22,13 +22,11 @@ void AddPiece(const int piece, const int to, S_Board* pos) {
 
 //Remove a piece from a square while also deactivating the nnue weights tied to the piece
 void ClearPieceNNUE(const int piece, const int sq, S_Board* pos) {
-	nnue.clear(pos->accumulator, piece, sq);
 	ClearPiece(piece, sq, pos);
 }
 
 //Add a piece to a square while also activating the nnue weights tied to the piece
 void AddPieceNNUE(const int piece, const int to, S_Board* pos) {
-	nnue.add(pos->accumulator, piece, to);
 	AddPiece(piece, to, pos);
 }
 
@@ -40,7 +38,6 @@ void MovePiece(const int piece, const int from, const int to, S_Board* pos) {
 
 //Move a piece from square to to square from
 void MovePieceNNUE(const int piece, const int from, const int to, S_Board* pos) {
-	nnue.move(pos->accumulator, piece, from, to);
 	MovePiece(piece, from, to, pos);
 }
 
@@ -55,7 +52,6 @@ int make_move(const int move, S_Board* pos) {
 	//Store position key in the array of searched position
 	pos->played_positions.emplace_back(pos->posKey);
 
-	pos->accumulatorStack.emplace_back(pos->accumulator);
 	// parse move
 	int source_square = From(move);
 	int target_square = To(move);
@@ -319,8 +315,6 @@ int Unmake_move(const int move, S_Board* pos) {
 	int castling = (((piece == WK) || (piece == BK)) && (abs(target_square - source_square) == 2));
 	int piececap = pos->history[pos->ply].capture;
 
-	pos->accumulator = pos->accumulatorStack.back();
-	pos->accumulatorStack.pop_back();
 
 	// handle pawn promotions
 	if (promoted_piece) {

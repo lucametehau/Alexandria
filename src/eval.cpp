@@ -12,6 +12,30 @@ int MaterialDraw(const S_Board* pos) {
 }
 
 // position evaluation
-int EvalPosition(const S_Board* pos) {
-	return (pos->side == WHITE) ? nnue.output(pos->accumulator) : -nnue.output(pos->accumulator);
+int EvalPosition(const S_Board* pos, S_SearchINFO* info) {
+	int white_pawns = CountBits(GetPieceColorBB(pos, PAWN, WHITE));
+	int black_pawns = CountBits(GetPieceColorBB(pos, PAWN, BLACK));
+
+	int white_bishops = CountBits(GetPieceColorBB(pos, BISHOP, WHITE));
+	int black_bishops = CountBits(GetPieceColorBB(pos, BISHOP, BLACK));
+
+	int white_knights = CountBits(GetPieceColorBB(pos, KNIGHT, WHITE));
+	int black_knights = CountBits(GetPieceColorBB(pos, KNIGHT, BLACK));
+
+	int white_rooks = CountBits(GetPieceColorBB(pos, ROOK, WHITE));
+	int black_rooks = CountBits(GetPieceColorBB(pos, ROOK, BLACK));
+
+	int white_queens = CountBits(GetPieceColorBB(pos, QUEEN, WHITE));
+	int black_queens = CountBits(GetPieceColorBB(pos, QUEEN, BLACK));
+
+	int score = white_pawns - black_pawns
+		+ (white_bishops - black_bishops) * 3
+		+ (white_knights - black_knights) * 3
+		+ (white_rooks - black_rooks) * 5
+		+ (white_queens - black_queens) * 9;
+	score *= 100;
+	//random term
+	score += (2 * (info->nodes & 3) - 3);
+
+	return (pos->side == WHITE) ? score : -score;
 }
