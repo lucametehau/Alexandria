@@ -562,7 +562,7 @@ moves_loop:
 				return (singularBeta);
 			// If the eval of ttMove is less than value, we reduce it (negative extension)
 			else if (tte.score >= beta)
-				extension = -1;
+				extension = -2;
 
 		}
 		//we adjust the search depth based on potential extensions
