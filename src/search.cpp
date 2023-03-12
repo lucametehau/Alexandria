@@ -168,8 +168,12 @@ static inline void score_moves(S_Board* pos, Search_data* sd, Search_stack* ss, 
 			move_list->moves[i].score = INT32_MAX - 100;
 			continue;
 		}
-		else if (get_move_promoted(move)) {
-			move_list->moves[i].score = 2000000000 + get_move_promoted(move);
+		else if (get_move_promoted(move))
+		{
+			int promoted_piece = GetPieceType(get_move_promoted(move));
+			if (promoted_piece == QUEEN || promoted_piece == KNIGHT)
+				move_list->moves[i].score = 2000000000 + get_move_promoted(move);
+			else move_list->moves[i].score = -1000000000;
 			continue;
 		}
 		//if the move is an enpassant or a promotion give it a score that a good capture of type pawn-pwan would have
