@@ -338,7 +338,8 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 		else if ((score >= beta))
 		{
 			//Since we failed high reduce search depth by 1
-			depth--;
+			if (depth > 1) depth--;
+
 			beta = std::min(score + delta, MAXSCORE);
 		}
 		else break;
