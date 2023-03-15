@@ -297,7 +297,7 @@ void SearchPosition(int start_depth, int final_depth, S_ThreadData* td, S_UciOpt
 
 int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 	int score = 0;
-
+	int initial_depth = depth;
 	Search_stack stack[MAXDEPTH], * ss = stack;
 
 	//We set an expected window for the score at the next search depth, this window is not 100% accurate so we might need to try a bigger window and re-search the position
@@ -326,14 +326,16 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 		// stop calculating and return best move so far
 		if (td->info.stopped) break;
 
-		// we fell outside the window, so try again with a bigger window, if we still fail after we just search with a full window
+		// we failed low, so try again with a bigger window
 		if ((score <= alpha)) {
 			beta = (alpha + beta) / 2;
 			alpha = std::max(-MAXSCORE, score - delta);
+			//Since we failed high reduce search depth by 1
+			depth = initial_depth;
 		}
 
-		// we fell outside the window, so try again with a bigger window, if we still fail after we just search with a full window
-		else if ((score >= beta)) 
+		// we failed high, so try again with a bigger window
+		else if ((score >= beta))
 		{
 			//Since we failed high reduce search depth by 1
 			depth--;
