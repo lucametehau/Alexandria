@@ -555,12 +555,10 @@ moves_loop:
 			int singularScore = Negamax(singularBeta - 1, singularBeta, singularDepth, td, ss);
 			ss->excludedMove = NOMOVE;
 
-			if (singularBeta >= beta)
-				return (singularBeta);
-
-			else if (singularScore < singularBeta)
+			if (singularScore < singularBeta)
 				extension = 1;
-
+			else if (singularBeta >= beta)
+				return (singularBeta);
 			else if (tte.score <= alpha)
 				extension = -1;
 
