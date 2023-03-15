@@ -333,7 +333,10 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 		}
 
 		// we fell outside the window, so try again with a bigger window, if we still fail after we just search with a full window
-		else if ((score >= beta)) {
+		else if ((score >= beta)) 
+		{
+			//Since we failed high reduce search depth by 1
+			depth--;
 			beta = std::min(score + delta, MAXSCORE);
 		}
 		else break;
