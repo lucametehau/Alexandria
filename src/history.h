@@ -12,4 +12,5 @@ void UpdateCH(const S_Board* pos, Search_data* sd, const int depth, const int be
 //Returns the history score of a move
 int GetHHScore(const S_Board* pos, const Search_data* sd, const int  move);
 int64_t GetCHScore(const S_Board* pos, const Search_data* sd, const int  move, const Search_stack* ss);
+int64_t GetHistoryScore(const S_Board* pos, const Search_data* sd, const int  move, const Search_stack* ss);
 void CleanHistories(Search_data* ss);

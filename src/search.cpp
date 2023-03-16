@@ -580,6 +580,7 @@ moves_loop:
 		{
 			//calculate by how much we should reduce the search depth 
 			depth_reduction = reduction(pv_node, improving, depth, moves_searched);
+			depth_reduction -= std::min(3LL, GetHistoryScore(pos, sd, move, ss) / 16000);
 			//adjust the reduction so that we can't drop into Qsearch and to prevent extensions
 			depth_reduction = std::min(depth - 1, std::max(depth_reduction, 1));
 			// search current move with reduced depth:
@@ -635,8 +636,8 @@ moves_loop:
 						}
 
 						//Save CounterMoves
-						if(pos->ply >= 1)
-						sd->CounterMoves[From((ss - 1)->move)][To((ss - 1)->move)] = move;
+						if (pos->ply >= 1)
+							sd->CounterMoves[From((ss - 1)->move)][To((ss - 1)->move)] = move;
 						//Update the history heuristic based on the new best move
 						UpdateHH(pos, sd, depth, bestmove, &quiet_moves);
 						UpdateCH(pos, sd, depth, bestmove, ss, &quiet_moves);
