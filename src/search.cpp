@@ -476,10 +476,11 @@ int Negamax(int alpha, int beta, int depth, S_ThreadData* td, Search_stack* ss) 
 		}
 
 		// razoring
-		if (depth <= 3 &&
-			eval - 63 + 182 * depth <= alpha)
+		if (eval <= alpha - 394 - 290 * depth * depth)
 		{
-			return Quiescence(alpha, beta, td, ss);
+			int value = Quiescence(alpha, beta, td, ss);
+			if (value < alpha)
+				return value;
 		}
 
 	}
