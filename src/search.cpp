@@ -301,13 +301,13 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 	Search_stack stack[MAXDEPTH], * ss = stack;
 
 	//We set an expected window for the score at the next search depth, this window is not 100% accurate so we might need to try a bigger window and re-search the position
-	int delta = 12;
+	int delta = 16;
 	// define initial alpha beta bounds
 	int alpha = -MAXSCORE;
 	int beta = MAXSCORE;
 
 	// only set up the windows is the search depth is bigger or equal than Aspiration_Depth to avoid using windows when the search isn't accurate enough
-	if (depth >= 3) {
+	if (depth >= 5) {
 		alpha = std::max(-MAXSCORE, prev_eval - delta);
 		beta = std::min(prev_eval + delta, MAXSCORE);
 	}
