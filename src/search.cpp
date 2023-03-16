@@ -305,7 +305,7 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 	// define initial alpha beta bounds
 	int alpha = -MAXSCORE;
 	int beta = MAXSCORE;
-
+	int initial_depth = depth;
 	// only set up the windows is the search depth is bigger or equal than Aspiration_Depth to avoid using windows when the search isn't accurate enough
 	if (depth >= 3) {
 		alpha = std::max(-MAXSCORE, prev_eval - delta);
@@ -330,11 +330,15 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 		if ((score <= alpha)) {
 			beta = (alpha + beta) / 2;
 			alpha = std::max(-MAXSCORE, score - delta);
+			depth = initial_depth;
 		}
 
 		// we fell outside the window, so try again with a bigger window, if we still fail after we just search with a full window
-		else if ((score >= beta)) {
+		else if ((score >= beta))
+		{
 			beta = std::min(score + delta, MAXSCORE);
+			if (depth >= 2)
+				depth--;
 		}
 		else break;
 		delta *= 1.44;
