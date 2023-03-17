@@ -184,7 +184,7 @@ void PrintUciOutput(const int score, const int depth, const S_ThreadData* td, co
 	uint64_t nodes = td->info.nodes + GetTotalNodes(options->Threads);
 
 	uint64_t nps = nodes / (time + !time) * 1000;
-	if (print_uci)
+	if (print_uci && time > 47)
 	{
 		if (score > -mate_value && score < -mate_score)
 			std::cout << "info score mate " << -(score + mate_value) / 2 << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
