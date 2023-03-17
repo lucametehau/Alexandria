@@ -11,9 +11,11 @@ void updateCHScore(const S_Board* pos, Search_data* sd, const Search_stack* ss, 
 {
 	int scaled_bonus = bonus - GetCHScore(pos, sd, bestmove, ss) * std::abs(bonus) / 32768;
 	//Update move score
-	sd->cont_hist[get_move_piece((ss - 1)->move)][To((ss - 1)->move)]
+	if (pos->ply > 0)
+		sd->cont_hist[get_move_piece((ss - 1)->move)][To((ss - 1)->move)]
 		[get_move_piece(bestmove)][To(bestmove)] += scaled_bonus;
-	sd->cont_hist[get_move_piece((ss - 2)->move)][To((ss - 2)->move)]
+	if (pos->ply > 1)
+		sd->cont_hist[get_move_piece((ss - 2)->move)][To((ss - 2)->move)]
 		[get_move_piece(bestmove)][To(bestmove)] += scaled_bonus;
 }
 //Update the history heuristics of all the quiet moves passed to the function
