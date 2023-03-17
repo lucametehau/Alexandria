@@ -184,29 +184,31 @@ void PrintUciOutput(const int score, const int depth, const S_ThreadData* td, co
 	uint64_t nodes = td->info.nodes + GetTotalNodes(options->Threads);
 
 	uint64_t nps = nodes / (time + !time) * 1000;
-	if (print_uci && time > 47)
+	if (print_uci)
 	{
-		if (score > -mate_value && score < -mate_score)
-			std::cout << "info score mate " << -(score + mate_value) / 2 << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
-			" nps " << nps << " time " << GetTimeMs() - td->info.starttime << " pv ";
+		if (time > 47) {
+			if (score > -mate_value && score < -mate_score)
+				std::cout << "info score mate " << -(score + mate_value) / 2 << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
+				" nps " << nps << " time " << GetTimeMs() - td->info.starttime << " pv ";
 
-		else if (score > mate_score && score < mate_value)
-			std::cout << "info score mate " << (mate_value - score) / 2 + 1 << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
-			" nps " << nps << " time " << GetTimeMs() - td->info.starttime << " pv ";
+			else if (score > mate_score && score < mate_value)
+				std::cout << "info score mate " << (mate_value - score) / 2 + 1 << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
+				" nps " << nps << " time " << GetTimeMs() - td->info.starttime << " pv ";
 
-		else
-			std::cout << "info score cp " << score << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
-			" nps " << nps << " time " << GetTimeMs() - td->info.starttime << " pv ";
+			else
+				std::cout << "info score cp " << score << " depth " << depth << " seldepth " << td->info.seldepth << " multipv " << options->MultiPV << " nodes " << nodes <<
+				" nps " << nps << " time " << GetTimeMs() - td->info.starttime << " pv ";
 
-		// loop over the moves within a PV line
-		for (int count = 0; count < td->pv_table.pvLength[0]; count++) {
-			// print PV move
-			PrintMove(td->pv_table.pvArray[0][count]);
-			printf(" ");
+			// loop over the moves within a PV line
+			for (int count = 0; count < td->pv_table.pvLength[0]; count++) {
+				// print PV move
+				PrintMove(td->pv_table.pvArray[0][count]);
+				printf(" ");
+			}
+
+			// print new line
+			std::cout << std::endl;
 		}
-
-		// print new line
-		std::cout << std::endl;
 	}
 	else {
 
