@@ -68,7 +68,7 @@ int GetHHScore(const S_Board* pos, const Search_data* sd, const int  move) {
 	return sd->searchHistory[pos->pieces[From(move)]][To(move)];
 }
 
-int GetHistoryScore(const S_Board* pos, const Search_data* sd, const int  move, const Search_stack* ss) {
+int GetHistoryScore(const S_Board* pos, const Search_data* sd, const Search_stack* ss, const int  move) {
 	return sd->searchHistory[pos->pieces[From(move)]][To(move)] + GetCHScore(pos, sd, ss, move);
 }
 
