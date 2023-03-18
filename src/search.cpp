@@ -580,6 +580,8 @@ moves_loop:
 		{
 			//calculate by how much we should reduce the search depth 
 			depth_reduction = reduction(pv_node, improving, depth, moves_searched);
+			//Reduce more on cutnodes
+			depth_reduction += cutnode;
 			//adjust the reduction so that we can't drop into Qsearch and to prevent extensions
 			depth_reduction = std::min(depth - 1, std::max(depth_reduction, 1));
 			// search current move with reduced depth:
