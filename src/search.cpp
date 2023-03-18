@@ -385,7 +385,7 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 	if (!root_node) {
 		//If position is a draw return a randomized draw score to avoid 3-fold blindness
 		if (IsDraw(pos)) {
-			return 8 - (info->nodes & 7);
+			return 1 - (info->nodes & 2);
 		}
 
 		//If we reached maxdepth we return a static evaluation of the position
@@ -668,7 +668,7 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 	S_Board* pos = &td->pos;
 	Search_data* sd = &td->ss;
 	S_SearchINFO* info = &td->info;
-	bool in_check = IsInCheck(pos, pos->side);
+	//bool in_check = IsInCheck(pos, pos->side);
 	//tte is an hashtable entry, it will store the values fetched from the TT
 	S_HashEntry tte;
 	bool TThit = false;
@@ -691,8 +691,9 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 	}
 
 	//If we reached maxdepth we return a static evaluation of the position
-	if (pos->ply > MAXDEPTH - 1) {
-		return in_check ? 0 : EvalPosition(pos);
+	if (pos->ply > MAXDEPTH - 1)
+	{
+		return EvalPosition(pos);
 	}
 	//TThit is true if and only if we find something in the TT
 	TThit = ProbeHashEntry(pos, &tte);
