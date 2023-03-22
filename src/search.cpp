@@ -335,7 +335,7 @@ int AspirationWindowSearch(int prev_eval, int depth, S_ThreadData* td) {
 			beta = std::min(score + delta, MAXSCORE);
 		}
 		else break;
-		delta += delta / 4;
+		delta += delta / 2;
 	}
 	return score;
 }
