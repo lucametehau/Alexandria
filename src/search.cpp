@@ -527,13 +527,14 @@ moves_loop:
 				SkipQuiets = true;
 				continue;
 			}
-			const auto gain = PieceValue[PieceOn(pos, To(move))] + PieceValue[get_move_promoted(move)];
-			// Forward futility pruning
+
+			//Futility pruning, if eval + margin are below alpha we can start skipping quiet moves
 			if (!in_check
-				&& !pv_node
-				&& moves_searched >= 2
-				&& ss->static_eval + 150 * depth + gain < alpha) {
-				break;
+				&& eval + 150 <= alpha
+				&& depth <= 7)
+			{
+				SkipQuiets = true;
+				continue;
 			}
 
 			// See pruning
