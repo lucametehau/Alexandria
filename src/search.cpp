@@ -519,9 +519,9 @@ moves_loop:
 		{
 			//Movecount pruning: if we searched enough quiet moves and we are not in check we skip the others
 			if (!pv_node
+				&& isQuiet
 				&& !in_check
 				&& depth < 4
-				&& isQuiet
 				&& quiet_moves.count > lmp_margin[depth][improving])
 			{
 				SkipQuiets = true;
@@ -530,6 +530,7 @@ moves_loop:
 
 			// Futility pruning
 			if (!pv_node
+				&& isQuiet
 				&& !in_check
 				&& depth < 4
 				&& moves_searched >= 2
