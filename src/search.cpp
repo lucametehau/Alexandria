@@ -527,6 +527,14 @@ moves_loop:
 				SkipQuiets = true;
 				continue;
 			}
+			const auto gain = PieceValue[PieceOn(pos, To(move))] + PieceValue[get_move_promoted(move)];
+			// Forward futility pruning
+			if (!in_check
+				&& !pv_node
+				&& moves_searched >= 2
+				&& ss->static_eval + 150 * depth + gain < alpha) {
+				break;
+			}
 
 			// See pruning
 			if (depth <= 8
@@ -535,6 +543,7 @@ moves_loop:
 			{
 				continue;
 			}
+
 		}
 
 		int extension = 0;
