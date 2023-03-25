@@ -529,9 +529,12 @@ moves_loop:
 			}
 
 			// Futility pruning
-			if (!in_check
-				&& depth < 7
-				&& ss->static_eval + 150 + 138 * depth <= alpha) {
+			if (!pv_node
+				&& !in_check
+				&& depth < 4
+				&& moves_searched >= 2
+				&& ss->static_eval + 500 + 138 * depth <= alpha)
+			{
 				SkipQuiets = true;
 				continue;
 			}
