@@ -421,7 +421,7 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 
 	//If we are in check or searching a singular extension we avoid pruning before the move loop
 	if (in_check || excludedMove) {
-		ss->static_eval = value_none;
+		ss->static_eval = eval = value_none;
 		improving = false;
 		goto moves_loop;
 	}
@@ -528,11 +528,10 @@ moves_loop:
 				continue;
 			}
 
-			//Futility pruning, if eval + margin are below alpha we can start skipping quiet moves
+			// Futility pruning
 			if (!in_check
-				&& eval + 150 <= alpha
-				&& depth <= 7)
-			{
+				&& depth < 13
+				&& ss->static_eval + 103 + 138 * depth <= alpha) {
 				SkipQuiets = true;
 				continue;
 			}
