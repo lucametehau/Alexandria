@@ -530,8 +530,8 @@ moves_loop:
 
 			// Futility pruning
 			if (!in_check
-				&& depth < 13
-				&& ss->static_eval + 103 + 138 * depth <= alpha) {
+				&& depth < 7
+				&& ss->static_eval + 150 + 138 * depth <= alpha) {
 				SkipQuiets = true;
 				continue;
 			}
