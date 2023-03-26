@@ -491,6 +491,8 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 				//take the most promising move that hasn't been played yet
 				PickMove(move_list, count);
 				int move = move_list->moves[count].move;
+				int score = move_list->moves[count].score;
+				if (score < goodCaptureScore) continue;
 				ss->move = move;
 				make_move(move, pos);
 				// check if move is above the adjustedBeta with a qsearch
