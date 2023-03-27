@@ -477,7 +477,7 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 		int adjustedBeta = beta + 110 - 30 * improving;
 		//If terms and conditions apply
 		if (!pv_node
-			&& depth >= 4
+			&& depth > 4
 			&& abs(beta) < ISMATE
 			&& (!ttHit || tte.score >= adjustedBeta || tte.depth < depth - 3))
 		{
