@@ -528,13 +528,13 @@ moves_loop:
 				continue;
 			}
 
-			// Futility pruning
+			// Futility pruning for quiet moves
 			if (!pv_node
 				&& isQuiet
 				&& !in_check
-				&& depth < 4
-				&& moves_searched >= 2
-				&& ss->static_eval + 200 + 130 * depth <= alpha)
+				&& depth < 9
+				&& moves_searched >= 1
+				&& ss->static_eval + 100 + 100 * depth <= alpha)
 			{
 				SkipQuiets = true;
 				continue;
