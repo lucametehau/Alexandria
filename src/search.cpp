@@ -474,7 +474,7 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 		}
 
 		//Probcut
-		int adjustedBeta = beta + 150 - 30 * improving;
+		int adjustedBeta = beta + 130 - 30 * improving;
 		//If terms and conditions apply
 		if (!pv_node
 			&& depth > 4
