@@ -18,8 +18,6 @@ bool MaterialDraw(const S_Board* pos) {
 	int black_knights = CountBits(GetPieceColorBB(pos, KNIGHT, BLACK));
 	int white_bishops = CountBits(GetPieceColorBB(pos, BISHOP, WHITE));
 	int black_bishops = CountBits(GetPieceColorBB(pos, BISHOP, BLACK));
-	int white_rooks = CountBits(GetPieceColorBB(pos, ROOK, WHITE));
-	int black_rooks = CountBits(GetPieceColorBB(pos, ROOK, BLACK));
 
 	if (!rooks && !queens) {
 
@@ -29,24 +27,6 @@ bool MaterialDraw(const S_Board* pos) {
 		}
 		else if ((!knights && abs(white_bishops - black_bishops) < 2)
 			|| ((white_knights + white_bishops == 1) && (black_knights + black_bishops == 1)))
-			return true;
-	}
-	else if (!queens) {
-		if (white_rooks == 1 && black_rooks == 1) {
-			if ((white_knights + white_bishops) < 2
-				&& (black_knights + black_bishops) < 2)
-				return true;
-		}
-		else if (white_rooks == 1 && !black_rooks) {
-			if ((white_knights + white_bishops) == 0
-				&& (((black_knights + black_bishops) == 1)
-					|| (black_knights + black_bishops) == 2))
-				return true;
-		}
-		else if (!white_rooks
-			&& black_rooks == 1
-			&& (black_knights + black_bishops) == 0
-			&& (((white_knights + white_bishops) == 1) || (white_knights + white_bishops) == 2))
 			return true;
 	}
 
