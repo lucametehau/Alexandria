@@ -9,18 +9,17 @@ bool MaterialDraw(const S_Board* pos) {
 	if (CountBits(Occupancy(pos, BOTH)) == 2)
 		return true;
 
-	int bishops = CountBits(GetPieceBB(pos, BISHOP));
-	int knights = CountBits(GetPieceBB(pos, KNIGHT));
+
 	int rooks = CountBits(GetPieceBB(pos, ROOK));
 	int queens = CountBits(GetPieceBB(pos, QUEEN));
 
-	int white_knights = CountBits(GetPieceColorBB(pos, KNIGHT, WHITE));
-	int black_knights = CountBits(GetPieceColorBB(pos, KNIGHT, BLACK));
-	int white_bishops = CountBits(GetPieceColorBB(pos, BISHOP, WHITE));
-	int black_bishops = CountBits(GetPieceColorBB(pos, BISHOP, BLACK));
-
 	if (!rooks && !queens) {
-
+		int bishops = CountBits(GetPieceBB(pos, BISHOP));
+		int knights = CountBits(GetPieceBB(pos, KNIGHT));
+		int white_knights = CountBits(GetPieceColorBB(pos, KNIGHT, WHITE));
+		int black_knights = CountBits(GetPieceColorBB(pos, KNIGHT, BLACK));
+		int white_bishops = CountBits(GetPieceColorBB(pos, BISHOP, WHITE));
+		int black_bishops = CountBits(GetPieceColorBB(pos, BISHOP, BLACK));
 		if (!bishops) {
 			if (white_knights < 3 && black_knights < 3)
 				return true;
