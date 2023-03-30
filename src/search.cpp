@@ -506,7 +506,7 @@ moves_loop:
 		int move = move_list->moves[count].move;
 		if (move == excludedMove) continue;
 		bool isQuiet = IsQuiet(move);
-
+		bool isKiller = (move == ss->searchKillers[0]) || (move == ss->searchKillers[1]);
 		if (isQuiet && SkipQuiets) continue;
 
 		//if the move isn't a quiet move we update the quiet moves list and counter
@@ -581,6 +581,7 @@ moves_loop:
 		{
 			//calculate by how much we should reduce the search depth 
 			depth_reduction = reduction(pv_node, improving, depth, moves_searched);
+			depth_reduction -= isKiller;
 			//adjust the reduction so that we can't drop into Qsearch and to prevent extensions
 			depth_reduction = std::min(depth - 1, std::max(depth_reduction, 1));
 			// search current move with reduced depth:
