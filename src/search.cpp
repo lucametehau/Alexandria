@@ -485,7 +485,7 @@ moves_loop:
 	S_MOVELIST move_list[1];
 
 	// generate moves
-	GenerateMoves(move_list, pos);
+	GenerateMovesSearch(move_list, pos);
 	//assign a score to every move based on how promising it is
 	score_moves(pos, sd, ss, move_list, tte.move);
 
@@ -724,7 +724,7 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 	S_MOVELIST move_list[1];
 
 	// generate the captures
-	GenerateCaptures(move_list, pos);
+	GenerateMovesSearch(move_list, pos);
 
 	//score the generated moves
 	score_moves(pos, sd, ss, move_list, tte.move);

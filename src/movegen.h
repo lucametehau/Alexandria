@@ -10,6 +10,7 @@ int MoveExists(const S_Board* pos, const int move);
 
 // generate all moves
 void GenerateMoves(S_MOVELIST* move_list, S_Board* pos);
+void GenerateMovesSearch(S_MOVELIST* move_list, S_Board* pos);
 
-// generate all moves
+// generate captures
 void GenerateCaptures(S_MOVELIST* move_list, S_Board* pos);
