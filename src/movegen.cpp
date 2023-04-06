@@ -71,8 +71,8 @@ static inline void AddPawnMove(const S_Board* pos, const int from, const int to,
 		if (from >= a7 &&
 			from <= h7) { // if the piece is moving from the 7th to the 8th rank
 			AddMove(encode_move(from, to, WP, WQ, capture), list);
-			//AddMove(encode_move(from, to, WP, WR, capture), list); // consider every possible piece promotion
-			//AddMove(encode_move(from, to, WP, WB, capture), list);
+			AddMove(encode_move(from, to, WP, WR, capture), list); // consider every possible piece promotion
+			AddMove(encode_move(from, to, WP, WB, capture), list);
 			AddMove(encode_move(from, to, WP, WN, capture), list);
 		}
 		else { // else do not include possible promotions
