@@ -23,7 +23,7 @@ void Optimum(S_SearchINFO* info, int time, int inc) {
 		auto scale = 0.7 / mtg;
 		auto eight = 0.8 * time;
 		auto optime = std::min(scale * time, eight);
-		auto maxtime = std::min(5.0 * info->stoptimeOpt, eight);
+		auto maxtime = std::min(5.0 * optime, eight);
 		info->stoptimeMax = info->starttime + maxtime;
 		info->stoptimeOpt = info->starttime + optime;
 	}
