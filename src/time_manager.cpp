@@ -19,10 +19,11 @@ void Optimum(S_SearchINFO* info, int time, int inc) {
 	{
 		int safety_overhead = 50;
 		time -= safety_overhead;
-		int time_slot = time / info->movestogo;
-		int basetime = (time_slot);
-		info->stoptimeMax = info->starttime + basetime;
-		info->stoptimeOpt = info->starttime + basetime;
+		auto mtg = std::min(50, info->movestogo);
+		auto scale = 0.7 / mtg;
+		auto eight = 0.8 * time;
+		info->stoptimeOpt = std::min(scale * time, eight);
+		info->stoptimeMax = std::min(5.0 * info->stoptimeOpt, eight);
 	}
 	// else if we recieved wtime/btime we calculate an over and upper bound for the time usage based on fixed coefficients
 	else if (info->timeset)
