@@ -471,6 +471,41 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 			}
 		}
 
+		//Probcut
+		int adjustedBeta = beta + 110 - 30 * improving;
+		//If terms and conditions apply
+		if (!pv_node
+			&& depth > 4
+			&& abs(beta) < ISMATE
+			&& (!ttHit || tte.score >= adjustedBeta || tte.depth < depth - 3))
+		{
+			// create move list instance
+			S_MOVELIST move_list[1];
+			// generate and score tactical moves
+			GenerateCaptures(move_list, pos);
+			score_moves(pos, sd, ss, move_list, tte.move);
+			//for all tactical moves
+			for (int count = 0; count < move_list->count; count++) {
+				//take the most promising move that hasn't been played yet
+				PickMove(move_list, count);
+				int move = move_list->moves[count].move;
+				int move_score = move_list->moves[count].score;
+				if (move_score < goodCaptureScore) continue;
+				ss->move = move;
+				make_move(move, pos);
+				// check if move is above the adjustedBeta with a qsearch
+				int score = -Quiescence(-adjustedBeta, -adjustedBeta + 1, td, ss + 1);
+				// if it's still above our cutoff do a more in depth search
+				if (score >= adjustedBeta)
+					score = -Negamax(-adjustedBeta, -adjustedBeta + 1, depth - 4, !cutnode, td, ss + 1);
+
+				Unmake_move(move, pos);
+
+				if (score >= adjustedBeta)
+					return score;
+			}
+		}
+
 		// razoring
 		if (depth <= 3 &&
 			eval - 63 + 182 * depth <= alpha)
