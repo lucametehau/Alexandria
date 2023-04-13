@@ -374,8 +374,7 @@ int Negamax(int alpha, int beta, int depth, bool cutnode, S_ThreadData* td, Sear
 	}
 
 	// check if more than Maxtime passed and we have to stop
-	if (td->id == 0 && TimeOver(&td->info)) {
-		StopHelperThreads();
+	if (TimeOver(&td->info)) {
 		td->info.stopped = true;
 	}
 
@@ -527,7 +526,8 @@ moves_loop:
 			}
 
 			// See pruning
-			if (depth <= 8
+			if (!pv_node
+				&& depth <= 8
 				&& moves_searched >= 2
 				&& !SEE(pos, move, see_margin[depth][isQuiet]))
 			{
@@ -674,8 +674,7 @@ int Quiescence(int alpha, int beta, S_ThreadData* td, Search_stack* ss) {
 	const bool pv_node = alpha != beta - 1;
 
 	// check if more than Maxtime passed and we have to stop
-	if (td->id == 0 && TimeOver(&td->info)) {
-		StopHelperThreads();
+	if (TimeOver(&td->info)) {
 		td->info.stopped = true;
 	}
 	//Check for the highest depth reached in search to report it to the cli

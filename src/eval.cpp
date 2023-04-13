@@ -17,7 +17,6 @@ bool MaterialDraw(const S_Board* pos) {
 		else if (((CountBits(GetPieceBB(pos, BISHOP)) == 2)) && CountBits(GetPieceColorBB(pos, BISHOP, WHITE)) == 1)
 			return true;
 	}
-
 	return false;
 }
 

@@ -1,4 +1,5 @@
 #include "threads.h"
+#include <iostream>
 
 // global vector of search threads
 std::vector<std::thread> threads;
@@ -19,13 +20,12 @@ void StopHelperThreads() {
 	{
 		threads_data[i].info.stopped = true;
 	}
-
 	for (std::thread& th : threads)
 	{
 		if (th.joinable())
 			th.join();
 	}
-
 	threads.clear();
-
+	std::cout << "Helper threads stopped\n";
+	return;
 }

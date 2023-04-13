@@ -9,6 +9,7 @@
 #include "ttable.h"
 #include "history.h"
 #include "time_manager.h"
+#include <sstream>
 
 std::atomic<bool> stop_flag = false;
 void make_random_move(S_Board* pos) {
@@ -149,8 +150,9 @@ void RootDatagen(S_ThreadData* td, Datagen_params params)
 	std::cout << "Waiting for the other threads to finish\n";
 	//Wait for helper threads to finish
 	StopHelperThreads();
-
+	std::cout << "Stopping MainThread" << std::endl;
 	std::cout << "Datagen done!\n";
+	return;
 }
 
 
@@ -238,8 +240,11 @@ bool PlayGame(S_ThreadData* td, std::ofstream& myfile, uint64_t& total_fens)
 	//When the game is over
 	total_fens += entries.size();
 	//Dump to file
-	for (data_entry entry : entries)
-		myfile << entry.fen << " | " << entry.score << " | " << wdl << "\n";
+	for (data_entry entry : entries) {
+		std::stringstream ss;
+		ss << entry.fen << " | " << entry.score << " | " << wdl << "\n";
+		myfile << ss.str();
+	}
 	return true;
 }
 
