@@ -6,7 +6,7 @@
 //Calculate how much time to spend on searching a move
 void Optimum(S_SearchINFO* info, int time, int inc) {
 	//Reserve some time overhead to avoid timing out in the engine-gui communication process
-	int safety_overhead = 50;
+	int safety_overhead = 10;
 	//if we recieved a movetime command we need to spend exactly that amount of time on the move, so we don't scale
 	if (info->movetimeset)
 	{
@@ -35,10 +35,12 @@ void Optimum(S_SearchINFO* info, int time, int inc) {
 		time -= safety_overhead;
 		int time_slot = time / 20 + inc / 2;
 		int basetime = (time_slot);
+		//Never use more than 80% of the total time left for a single move
+		auto maxtimeBound = 0.8 * time;
 		//optime is the time we use to stop if we just cleared a depth
-		int optime = basetime * 0.6;
-		//maxtime is the absolute maximum time we can spend on a search
-		int maxtime = std::min(time, basetime * 2);
+		auto optime = std::min(0.6 * basetime, maxtimeBound);
+		//maxtime is the absolute maximum time we can spend on a search (unless it is bigger than the bound)
+		auto maxtime = std::min(2.0 * basetime, maxtimeBound);
 		info->stoptimeMax = info->starttime + maxtime;
 		info->stoptimeOpt = info->starttime + optime;
 	}
