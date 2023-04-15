@@ -36,7 +36,7 @@ void Optimum(S_SearchINFO* info, int time, int inc) {
 		int time_slot = time / 20 + inc / 2;
 		int basetime = (time_slot);
 		//Never use more than 80% of the total time left for a single move
-		auto maxtimeBound = 0.8 * time;
+		auto maxtimeBound = 0.95 * time;
 		//optime is the time we use to stop if we just cleared a depth
 		auto optime = std::min(0.6 * basetime, maxtimeBound);
 		//maxtime is the absolute maximum time we can spend on a search (unless it is bigger than the bound)
