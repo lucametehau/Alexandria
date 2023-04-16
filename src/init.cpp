@@ -261,7 +261,7 @@ void InitAll()
 	HANDLE stdoutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	DWORD flags;
 	GetConsoleMode(stdoutHandle, &flags);
-	SetConsoleMode(stdoutHandle, flags | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+	//SetConsoleMode(stdoutHandle, flags | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 #endif
 	// init leaper pieces attacks
 	InitLeapersAttacks();

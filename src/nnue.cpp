@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <immintrin.h>
 // Macro to embed the default efficiently updatable neural network (NNUE) file
 // data in the engine binary (using incbin.h, by Dale Weiler).
 // This macro invocation will declare the following three variables
@@ -39,7 +40,7 @@ void NNUE::init(const char *file)
     // initialize an accumulator for every input of the second layer
     size_t read = 0;
     size_t fileSize = sizeof(NNUE);
-    size_t objectsExpected = fileSize / sizeof(int16_t);
+    size_t objectsExpected = 394753;
     // open the nn file
     FILE *nn = fopen(file, "rb");
 
@@ -80,40 +81,57 @@ void NNUE::init(const char *file)
 void NNUE::add(NNUE::accumulator &board_accumulator, int piece, int to)
 {
     auto [whiteIdx, blackIdx] = GetIndex(piece, to);
-    auto whiteAdd = &featureWeights[whiteIdx * HIDDEN_SIZE];
-    auto blackAdd = &featureWeights[blackIdx * HIDDEN_SIZE];
-    for (int i = 0; i < HIDDEN_SIZE; i++)
+    const reg_type* wa = reinterpret_cast<reg_type*>(&featureWeights[whiteIdx * HIDDEN_SIZE]);
+    const reg_type* wb = reinterpret_cast<reg_type*>(&featureWeights[blackIdx * HIDDEN_SIZE]);
+    reg_type* a = reinterpret_cast<reg_type*>(board_accumulator[0].data());
+    reg_type* b = reinterpret_cast<reg_type*>(board_accumulator[1].data());
+    for(int i = 0; i < NUM_REGS; i++)
+        a[i] = reg_add16(a[i], wa[i]);
+    for(int i = 0; i < NUM_REGS; i++)
+        b[i] = reg_add16(b[i], wb[i]);
+    /*for (int i = 0; i < HIDDEN_SIZE; i++)
     {
         board_accumulator[0][i] += whiteAdd[i];
     }
     for (int i = 0; i < HIDDEN_SIZE; i++)
     {
         board_accumulator[1][i] += blackAdd[i];
-    }
+    }*/
+    return;
 }
 
 void NNUE::clear(NNUE::accumulator &board_accumulator, int piece, int from)
 {
     auto [whiteIdx, blackIdx] = GetIndex(piece, from);
-    auto whiteSub = &featureWeights[whiteIdx * HIDDEN_SIZE];
-    auto blackSub = &featureWeights[blackIdx * HIDDEN_SIZE];
-    for (int i = 0; i < HIDDEN_SIZE; i++)
-    {
-        board_accumulator[0][i] -= whiteSub[i];
-    }
-    for (int i = 0; i < HIDDEN_SIZE; i++)
-    {
-        board_accumulator[1][i] -= blackSub[i];
-    }
+    const reg_type* wa = reinterpret_cast<reg_type*>(&featureWeights[whiteIdx * HIDDEN_SIZE]);
+    const reg_type* wb = reinterpret_cast<reg_type*>(&featureWeights[blackIdx * HIDDEN_SIZE]);
+    reg_type* a = reinterpret_cast<reg_type*>(board_accumulator[0].data());
+    reg_type* b = reinterpret_cast<reg_type*>(board_accumulator[1].data());
+    for(int i = 0; i < NUM_REGS; i++)
+        a[i] = reg_sub16(a[i], wa[i]);
+    for(int i = 0; i < NUM_REGS; i++)
+        b[i] = reg_sub16(b[i], wb[i]);
 }
 
 void NNUE::move(NNUE::accumulator &board_accumulator, int piece, int from, int to)
 {
     auto [whiteIdxFrom, blackIdxFrom] = GetIndex(piece, from);
     auto [whiteIdxTo, blackIdxTo] = GetIndex(piece, to);
-    auto whiteSub = &featureWeights[whiteIdxFrom * HIDDEN_SIZE];
-    auto whiteAdd = &featureWeights[whiteIdxTo * HIDDEN_SIZE];
-    for (int i = 0; i < HIDDEN_SIZE; i++)
+    //auto whiteSub = &featureWeights[whiteIdxFrom * HIDDEN_SIZE];
+    //auto whiteAdd = &featureWeights[whiteIdxTo * HIDDEN_SIZE];
+    const reg_type* wadd = reinterpret_cast<reg_type*>(&featureWeights[whiteIdxTo * HIDDEN_SIZE]);
+    const reg_type* badd = reinterpret_cast<reg_type*>(&featureWeights[blackIdxTo * HIDDEN_SIZE]);
+    const reg_type* wsub = reinterpret_cast<reg_type*>(&featureWeights[whiteIdxFrom * HIDDEN_SIZE]);
+    const reg_type* bsub = reinterpret_cast<reg_type*>(&featureWeights[blackIdxFrom * HIDDEN_SIZE]);
+    reg_type* a = reinterpret_cast<reg_type*>(board_accumulator[0].data());
+    reg_type* b = reinterpret_cast<reg_type*>(board_accumulator[1].data());
+    for(int i = 0; i < NUM_REGS; i++) {
+        a[i] = reg_add16(a[i], reg_sub16(wadd[i], wsub[i]));
+    }
+    for(int i = 0; i < NUM_REGS; i++) {
+        b[i] = reg_add16(b[i], reg_sub16(badd[i], bsub[i]));
+    }
+    /*for (int i = 0; i < HIDDEN_SIZE; i++)
     {
         board_accumulator[0][i] = board_accumulator[0][i] - whiteSub[i] + whiteAdd[i];
     }
@@ -122,7 +140,7 @@ void NNUE::move(NNUE::accumulator &board_accumulator, int piece, int from, int t
     for (int i = 0; i < HIDDEN_SIZE; i++)
     {
         board_accumulator[1][i] = board_accumulator[1][i] - blackSub[i] + blackAdd[i];
-    }
+    }*/
 }
 
 int32_t NNUE::output(const NNUE::accumulator &board_accumulator, bool whiteToMove)
@@ -141,7 +159,7 @@ int32_t NNUE::output(const NNUE::accumulator &board_accumulator, bool whiteToMov
         us = board_accumulator[1].data();
         them = board_accumulator[0].data();
     }
-    int32_t output = 0;
+    int output = 0;
     for (int i = 0; i < HIDDEN_SIZE; i++)
     {
         output += SCReLU(us[i]) * static_cast<int32_t>(outputWeights[i]);

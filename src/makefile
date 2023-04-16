@@ -8,7 +8,7 @@ CXXFLAGS  :=  -Wall -Wcast-qual -fno-exceptions -std=gnu++2a -pedantic -Wextra -
 NATIVE     = -march=native
 
 # engine name
-NAME      := Alexandria
+NAME      := Alexandria2
 
 # Detect Windows
 ifeq ($(OS), Windows_NT)
@@ -52,7 +52,7 @@ ifeq ($(build), x86-64-modern)
 endif
 
 ifeq ($(build), x86-64-avx2)
-	NATIVE       = -mtune=znver3
+	NATIVE       = -march=core-avx2
 	INSTRUCTIONS = -m64 -msse -msse3 -mpopcnt -mavx -mavx2 -mssse3 -msse2
 	ARCH         = -x86-64-avx2
 endif
@@ -84,4 +84,4 @@ $(TARGET): $(OBJECTS)
 -include $(DEPENDS)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(NATIVE) $(INSTRUCTIONS) -funroll-loops -O3 -DEVALFILE=\"$(EVALFILE)\" -flto -MMD -MP -c -o $@ $< $(FLAGS)
+	$(CXX) $(CXXFLAGS) $(NATIVE) $(INSTRUCTIONS) -funroll-loops -O3 -DEVALFILE=\"$(EVALFILE)\" -MMD -MP -c -o $@ $< $(FLAGS)

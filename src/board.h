@@ -95,9 +95,9 @@ public:
 	// Occupancies bitboards based on piece and side
 	Bitboard bitboards[12]{ 0ULL };
 	Bitboard occupancies[3] = { 0ULL };
-	NNUE::accumulator accumulator = {};
+	NNUE::accumulator accumulator __attribute__((aligned(ALIGN)));
 	//Previous values of the nnue accumulators. always empty at the start of search
-	std::vector<NNUE::accumulator> accumulatorStack = {};
+	std::vector<NNUE::accumulator> accumulatorStack __attribute__((aligned(ALIGN)));
 
 	int checks = -1;
 };
